@@ -20,11 +20,11 @@
 
     <!--
       Default hadoop file system access point
-      Default entry: hdfs://localhost:9000
+      Default entry: maprfs://localhost:9000
     -->
     <property>
       <name>fs.default.name</name>
-      <value>hdfs://localhost:9000</value>
+      <value>maprfs://localhost:9000</value>
     </property>
 
 

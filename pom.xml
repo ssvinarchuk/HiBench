@@ -22,8 +22,8 @@
     <mahout.version>0.9</mahout.version>
     <uncommons-maths.version>1.2.2a</uncommons-maths.version>
     <junit.version>3.8.1</junit.version>
-    <hadoop.mr2.version>2.4.0</hadoop.mr2.version>
-    <hadoop.mr1.version>1.2.1</hadoop.mr1.version>
+    <hadoop.mr2.version>2.7.0-mapr-1707</hadoop.mr2.version>
+    <hadoop.mr1.version>1.0.3-mapr-5.2.2</hadoop.mr1.version>
     <scala-maven-plugin.version>3.2.0</scala-maven-plugin.version>
     <maven-compiler-plugin.version>3.2</maven-compiler-plugin.version>
     <maven-assembly-plugin.version>2.5.3</maven-assembly-plugin.version>
@@ -52,6 +52,23 @@
   </dependencies>
 
   <repositories>
+    <repository>
+      <id>mapr-releases</id>
+      <url>http://repository.mapr.com/maven/</url>
+      <snapshots><enabled>false</enabled></snapshots>
+      <releases><enabled>true</enabled></releases>
+    </repository>
+    <repository>
+      <id>repository_cv</id>
+      <name>Private MapR repo for CyberVision</name>
+      <url>http://23.21.204.176/nexus/content/groups/mapr-public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
     <repository>
       <id>central</id>
       <!-- This should be at top, it makes maven try the central repo first and then others and hence faster dep resolution -->
