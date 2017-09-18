@@ -34,6 +34,8 @@ public class StreamBenchConfig {
 
   public static String KAFKA_TOPIC = "hibench.streambench.kafka.topic";
 
+  public static String STRAMS_PATH = "hibench.streambench.streams.path";
+
   public static String KAFKA_BROKER_LIST = "hibench.streambench.kafka.brokerList";
 
   public static String KAFKA_OFFSET_RESET = "hibench.streambench.kafka.offsetReset";

@@ -18,14 +18,12 @@
 package com.intel.hibench.sparkbench.streaming
 
 import com.intel.hibench.common.HiBenchConfig
-import com.intel.hibench.common.streaming.{TestCase, StreamBenchConfig, Platform, ConfigLoader}
 import com.intel.hibench.common.streaming.metrics.MetricsUtil
-import com.intel.hibench.sparkbench.streaming.util.SparkBenchConfig
+import com.intel.hibench.common.streaming.{ConfigLoader, Platform, StreamBenchConfig, TestCase}
 import com.intel.hibench.sparkbench.streaming.application._
-import kafka.serializer.StringDecoder
+import com.intel.hibench.sparkbench.streaming.util.SparkBenchConfig
 import org.apache.spark.SparkConf
-import org.apache.spark.streaming.dstream.DStream
-import org.apache.spark.streaming.kafka.KafkaUtils
+import org.apache.spark.streaming.kafka09.{ConsumerStrategies, KafkaUtils, LocationStrategies}
 import org.apache.spark.streaming.{Milliseconds, StreamingContext}
 
 /**
@@ -47,6 +45,8 @@ object RunBench {
     val directMode = conf.getProperty(StreamBenchConfig.SPARK_USE_DIRECT_MODE).toBoolean
     val benchName = conf.getProperty(StreamBenchConfig.TESTCASE)
     val topic = conf.getProperty(StreamBenchConfig.KAFKA_TOPIC)
+    val streamPath = conf.getProperty(StreamBenchConfig.STRAMS_PATH)
+    val streamTopic = streamPath+":"+topic
     val zkHost = conf.getProperty(StreamBenchConfig.ZK_HOST)
     val consumerGroup = conf.getProperty(StreamBenchConfig.CONSUMER_GROUP)
     val brokerList = conf.getProperty(StreamBenchConfig.KAFKA_BROKER_LIST)
@@ -60,10 +60,10 @@ object RunBench {
     val coreNumber = conf.getProperty(HiBenchConfig.YARN_EXECUTOR_NUMBER).toInt * conf.getProperty(HiBenchConfig.YARN_EXECUTOR_CORES).toInt
 
     val producerNum = conf.getProperty(StreamBenchConfig.DATAGEN_PRODUCER_NUMBER).toInt
-    val reporterTopic = MetricsUtil.getTopic(Platform.SPARK, topic, producerNum, recordPerInterval, intervalSpan)
+    val reporterTopic = MetricsUtil.getTopic(Platform.SPARK, streamTopic, producerNum, recordPerInterval, intervalSpan)
     println("Reporter Topic: " + reporterTopic)
     val reporterTopicPartitions = conf.getProperty(StreamBenchConfig.KAFKA_TOPIC_PARTITIONS).toInt
-    MetricsUtil.createTopic(zkHost, reporterTopic, reporterTopicPartitions)
+    MetricsUtil.createTopic(streamPath, reporterTopic, reporterTopicPartitions)
 
     val probability = conf.getProperty(StreamBenchConfig.SAMPLE_PROBABILITY).toDouble
     // init SparkBenchConfig, it will be passed into every test case
@@ -94,22 +94,16 @@ object RunBench {
       ssc.sparkContext.setLogLevel("ERROR")
     }
 
-    val lines: DStream[(String, String)] = if (config.directMode) {
-      // direct mode with low level Kafka API
-      KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](
-        ssc, config.kafkaParams, Set(config.sourceTopic))
+    val consumerStrategy =
+      ConsumerStrategies.Subscribe[String, String](Set(config.sourceTopic), config.kafkaParams)
 
-    } else {
-      // receiver mode with high level Kafka API
-      val kafkaInputs = (1 to config.receiverNumber).map{ _ =>
-        KafkaUtils.createStream[String, String, StringDecoder, StringDecoder](
-          ssc, config.kafkaParams, Map(config.sourceTopic -> config.threadsPerReceiver), config.storageLevel)
-      }
-      ssc.union(kafkaInputs)
-    }
+    val lines = KafkaUtils.createDirectStream[String, String](
+      ssc,
+      LocationStrategies.PreferConsistent,
+      consumerStrategy)
 
     // convent key from String to Long, it stands for event creation time.
-    val parsedLines = lines.map{ case (k, v) => (k.toLong, v) }
+    val parsedLines = lines.map{ cr => (cr.key().toLong, cr.value()) }
     testCase.process(parsedLines, config)
 
     ssc.start()

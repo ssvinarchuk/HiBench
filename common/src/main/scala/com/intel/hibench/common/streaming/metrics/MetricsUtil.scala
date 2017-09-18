@@ -17,9 +17,7 @@
 package com.intel.hibench.common.streaming.metrics
 
 import com.intel.hibench.common.streaming.Platform
-import kafka.admin.AdminUtils
-import kafka.utils.ZKStringSerializer
-import org.I0Itec.zkclient.ZkClient
+import scala.sys.process._
 
 object MetricsUtil {
 
@@ -33,18 +31,7 @@ object MetricsUtil {
     topic
   }
 
-  def createTopic(zkConnect: String, topic: String, partitions: Int): Unit = {
-    val zkClient = new ZkClient(zkConnect, 6000, 6000, ZKStringSerializer)
-    try {
-      AdminUtils.createTopic(zkClient, topic, partitions, 1)
-      while (!AdminUtils.topicExists(zkClient, topic)) {
-        Thread.sleep(100)
-      }
-    } catch {
-      case e: Exception =>
-        throw e
-    } finally {
-      zkClient.close()
-    }
+  def createTopic(streamPath: String, topicName: String, partitions: Int): Unit = {
+    s"maprcli stream topic create -path $streamPath -topic $topicName -partitions $partitions" !!
   }
 }

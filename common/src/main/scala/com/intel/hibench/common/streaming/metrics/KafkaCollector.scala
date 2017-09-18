@@ -17,14 +17,14 @@
 
 package com.intel.hibench.common.streaming.metrics
 
-import java.io.{FileWriter, File}
+import java.io.{File, FileWriter}
 import java.util.Date
-import java.util.concurrent.{TimeUnit, Future, Executors}
+import java.util.concurrent.{Executors, Future, TimeUnit}
 
-import com.codahale.metrics.{UniformReservoir, Histogram}
-import kafka.utils.{ZKStringSerializer, ZkUtils}
-import org.I0Itec.zkclient.ZkClient
+import com.codahale.metrics.{Histogram, UniformReservoir}
+import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig}
 
+import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
 
@@ -36,7 +36,8 @@ class KafkaCollector(zkConnect: String, metricsTopic: String,
   private val fetchResults = ArrayBuffer.empty[Future[FetchJobResult]]
 
   def start(): Unit = {
-    val partitions = getPartitions(metricsTopic, zkConnect)
+
+    val partitions = getPartitions(metricsTopic)
 
     println("Starting MetricsReader for kafka topic: " + metricsTopic)
 
@@ -59,13 +60,24 @@ class KafkaCollector(zkConnect: String, metricsTopic: String,
     report(finalResults.minTime, finalResults.maxTime, finalResults.count)
   }
 
-  private def getPartitions(topic: String, zkConnect: String): Seq[Int] = {
-    val zkClient = new ZkClient(zkConnect, 6000, 6000, ZKStringSerializer)
-    try {
-      ZkUtils.getPartitionsForTopics(zkClient, Seq(topic)).flatMap(_._2).toSeq
-    } finally {
-      zkClient.close()
-    }
+  private def getPartitions(topic: String): Seq[Int] = {
+    val props = new java.util.HashMap[String, Object]()
+    props.put("acks", "all")
+    props.put("batch.size", "16384")
+    props.put("max.block.ms", "1000")
+    props.put("linger.ms", "1000");
+    props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:1")
+    props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+      "org.apache.kafka.common.serialization.StringSerializer")
+    props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+      "org.apache.kafka.common.serialization.StringSerializer")
+
+    val kafkaProducer = new KafkaProducer[String, String](props)
+
+    kafkaProducer
+      .partitionsFor(topic)
+      .asScala
+      .map(_.partition())
   }
 
 
