@@ -32,6 +32,8 @@ object MetricsUtil {
   }
 
   def createTopic(streamPath: String, topicName: String, partitions: Int): Unit = {
+    println("111111111111111111111111111111111111111111111111" + streamPath)
+    println("111111111111111111111111111111111111111111111111" + topicName)
     s"maprcli stream topic create -path $streamPath -topic $topicName -partitions $partitions" !!
   }
 }

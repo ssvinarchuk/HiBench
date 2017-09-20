@@ -56,6 +56,11 @@
       <artifactId>hadoop-client</artifactId>
       <version>${hadoop.mr2.version}</version>
     </dependency>
+      <dependency>
+          <groupId>com.mapr.hadoop</groupId>
+          <artifactId>maprfs</artifactId>
+          <version>6.0.0-mapr-beta</version>
+      </dependency>
   </dependencies>
 
   <build>

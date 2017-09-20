@@ -17,20 +17,24 @@
 
 package com.intel.hibench.datagen.streaming.util;
 
+import com.mapr.fs.MapRFileSystem;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Vector;
 
 public class SourceFileReader {
 
   // get file reader according to given path and offset.
-  static public BufferedReader getReader (Configuration dfsConf, String path, long offset) {
+  static public BufferedReader getReader (Configuration dfsConf, String fsURI, String path, long offset) {
     BufferedReader reader = null;
     try {
       Path pt = new Path(path);
-      FileSystem fs = FileSystem.get(dfsConf);
+      MapRFileSystem fs = new MapRFileSystem();
+      fs.initialize(new URI(fsURI), dfsConf);
       InputStreamReader isr;
       if (fs.isDirectory(pt)) {
         //give path is an directory
@@ -47,6 +51,8 @@ public class SourceFileReader {
       reader = new BufferedReader(isr);
     } catch (IOException e) {
       System.err.println("Fail to get reader from path: " + path);
+      e.printStackTrace();
+    } catch (URISyntaxException e) {
       e.printStackTrace();
     }
     return reader;

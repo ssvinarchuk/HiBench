@@ -59,6 +59,12 @@
       <releases><enabled>true</enabled></releases>
     </repository>
     <repository>
+      <id>cv_dev_repo</id>
+      <url>http://34.197.167.22/artifactory/prestage/releases-dev/</url>
+      <snapshots><enabled>true</enabled></snapshots>
+      <releases><enabled>true</enabled></releases>
+    </repository>
+    <repository>
       <id>repository_cv</id>
       <name>Private MapR repo for CyberVision</name>
       <url>http://23.21.204.176/nexus/content/groups/mapr-public/</url>
