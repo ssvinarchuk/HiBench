@@ -50,6 +50,7 @@ public class KafkaSender {
         "org.apache.kafka.common.serialization.ByteArraySerializer");
     props.setProperty(ProducerConfig.ACKS_CONFIG, "1");
     props.getProperty(ProducerConfig.CLIENT_ID_CONFIG, "DataGenerator");
+
     this.kafkaProducer = new KafkaProducer(props);
 
     this.cachedData = CachedData.getInstance(seedFile, fileOffset, dfsMaster);

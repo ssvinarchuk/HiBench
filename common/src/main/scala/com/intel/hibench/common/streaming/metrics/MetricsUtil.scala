@@ -25,15 +25,17 @@ object MetricsUtil {
 
   def getTopic(platform: Platform, sourceTopic: String, producerNum: Int,
                recordPerInterval: Long, intervalSpan: Int): String = {
-    val topic = s"${platform}_${sourceTopic}_${producerNum}_${recordPerInterval}" +
+    val topic = s"${sourceTopic}_${producerNum}_${recordPerInterval}" +
       s"_${intervalSpan}_${System.currentTimeMillis()}"
     println(s"metrics is being written to kafka topic $topic")
     topic
   }
 
   def createTopic(streamPath: String, topicName: String, partitions: Int): Unit = {
-    println("111111111111111111111111111111111111111111111111" + streamPath)
-    println("111111111111111111111111111111111111111111111111" + topicName)
     s"maprcli stream topic create -path $streamPath -topic $topicName -partitions $partitions" !!
+  }
+
+  def createStream(streamPath: String): Unit = {
+    s"/opt/mapr/bin/maprcli stream create -path $streamPath" !
   }
 }

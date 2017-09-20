@@ -54,7 +54,9 @@ case class SparkBenchConfig (
   def kafkaParams = Map (
     "group.id" -> consumerGroup,
     "zookeeper.connect" -> zkHost,
-    "metadata.broker.list" -> brokerList
+    "metadata.broker.list" -> brokerList,
+    "key.deserializer" -> "org.apache.kafka.common.serialization.ByteArrayDeserializer",
+    "value.deserializer" -> "org.apache.kafka.common.serialization.ByteArrayDeserializer"
   )
 
   def threadsPerReceiver = coreNumber / receiverNumber
