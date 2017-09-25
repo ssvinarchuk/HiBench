@@ -32,6 +32,12 @@
       <version>${spark.version}</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.mapr.streams</groupId>
+      <artifactId>mapr-streams</artifactId>
+      <version>5.2.2-mapr</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <profiles>

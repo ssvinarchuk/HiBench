@@ -46,7 +46,8 @@ public class DataGenerator {
 
     // load properties from config file
     String testCase = configLoader.getProperty(StreamBenchConfig.TESTCASE).toLowerCase();
-    String topic = configLoader.getProperty(StreamBenchConfig.KAFKA_TOPIC);
+    String streamPath = configLoader.getProperty(StreamBenchConfig.STRAMS_PATH);
+    String topic = streamPath + ":" + configLoader.getProperty(StreamBenchConfig.KAFKA_TOPIC);
     String brokerList = configLoader.getProperty(StreamBenchConfig.KAFKA_BROKER_LIST);
     int intervalSpan = Integer.parseInt(configLoader.getProperty(StreamBenchConfig.DATAGEN_INTERVAL_SPAN));
     long recordsPerInterval = Long.parseLong(configLoader.getProperty(StreamBenchConfig.DATAGEN_RECORDS_PRE_INTERVAL));
