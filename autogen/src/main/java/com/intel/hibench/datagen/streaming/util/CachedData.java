@@ -18,6 +18,7 @@
 package com.intel.hibench.datagen.streaming.util;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,6 +37,9 @@ public class CachedData {
   private int next;
   private int totalRecords;
 
+  private final static String HADOOP_CONF_DIR = "/opt/mapr/hadoop/hadoop-2.7.0/etc/hadoop/";
+  private final static String MAPRFS_PREFIX = "maprfs:///";
+
   public static CachedData getInstance(String seedFile, long fileOffset, String dfsMaster) {
     if(cachedData == null) {
       synchronized (CachedData.class) {
@@ -49,11 +53,17 @@ public class CachedData {
 
   private CachedData(String seedFile, long fileOffset, String dfsMaster){
     Configuration dfsConf = new Configuration();
-    dfsConf.set("fs.default.name", dfsMaster);
+
+    dfsConf.addResource(new Path(HADOOP_CONF_DIR + "mapred-site.xml"));
+    dfsConf.addResource(new Path( HADOOP_CONF_DIR + "yarn-site.xml"));
+    dfsConf.addResource(new Path(HADOOP_CONF_DIR + "core-site.xml"));
+    dfsConf.addResource(new Path(HADOOP_CONF_DIR + "hdfs-site.xml"));
+    dfsConf.set("fs.hdfs.impl", org.apache.hadoop.hdfs.DistributedFileSystem.class.getName());
+    dfsConf.set("fs.file.impl", org.apache.hadoop.fs.LocalFileSystem.class.getName());
 
     // read records from seedFile and cache into "data"
     data = new ArrayList<String>();
-    BufferedReader reader = SourceFileReader.getReader(dfsConf, seedFile, fileOffset);
+    BufferedReader reader = SourceFileReader.getReader(dfsConf, MAPRFS_PREFIX, seedFile, fileOffset);
     String line = null;
     try {
       while ((line = reader.readLine()) != null) {

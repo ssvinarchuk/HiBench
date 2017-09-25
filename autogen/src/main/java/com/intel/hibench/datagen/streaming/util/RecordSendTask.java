@@ -50,13 +50,13 @@ public class RecordSendTask extends TimerTask {
     this.totalRecords = totalRecords;
     this.debugMode = debugMode;
     this.timer = timer;
-    System.out.println(Thread.currentThread().getName() + " - starting generate data ... ");
+    System.out.println(Thread.currentThread().getName() + " - starting generate data to topic: " + topic);
   }
 
   @Override
   public void run() {
     synchronized(this) {
-      if (debugMode) {
+      if (true) {
         String threadName = Thread.currentThread().getName();
         System.out.println( threadName + " - RecordSendTask run, " +
             roundCounter + " round, " + recordsCounter + " records sent");

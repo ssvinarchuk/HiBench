@@ -22,6 +22,7 @@ import com.intel.hibench.common.streaming.metrics.MetricsUtil
 import com.intel.hibench.common.streaming.{ConfigLoader, Platform, StreamBenchConfig, TestCase}
 import com.intel.hibench.sparkbench.streaming.application._
 import com.intel.hibench.sparkbench.streaming.util.SparkBenchConfig
+import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.kafka09.{ConsumerStrategies, KafkaUtils, LocationStrategies}
 import org.apache.spark.streaming.{Milliseconds, StreamingContext}
@@ -46,7 +47,7 @@ object RunBench {
     val benchName = conf.getProperty(StreamBenchConfig.TESTCASE)
     val topic = conf.getProperty(StreamBenchConfig.KAFKA_TOPIC)
     val streamPath = conf.getProperty(StreamBenchConfig.STRAMS_PATH)
-    val streamTopic = streamPath+":"+topic
+    val streamTopic = streamPath + ":" + topic
     val zkHost = conf.getProperty(StreamBenchConfig.ZK_HOST)
     val consumerGroup = conf.getProperty(StreamBenchConfig.CONSUMER_GROUP)
     val brokerList = conf.getProperty(StreamBenchConfig.KAFKA_BROKER_LIST)
@@ -63,12 +64,13 @@ object RunBench {
     val reporterTopic = MetricsUtil.getTopic(Platform.SPARK, streamTopic, producerNum, recordPerInterval, intervalSpan)
     println("Reporter Topic: " + reporterTopic)
     val reporterTopicPartitions = conf.getProperty(StreamBenchConfig.KAFKA_TOPIC_PARTITIONS).toInt
-    MetricsUtil.createTopic(streamPath, reporterTopic, reporterTopicPartitions)
+    MetricsUtil.createStream(streamPath)
+    MetricsUtil.createTopic(streamPath, reporterTopic.substring(reporterTopic.indexOf(":") + 1), reporterTopicPartitions)
 
     val probability = conf.getProperty(StreamBenchConfig.SAMPLE_PROBABILITY).toDouble
     // init SparkBenchConfig, it will be passed into every test case
     val config = SparkBenchConfig(master, benchName, batchInterval, receiverNumber, copies,
-      enableWAL, checkPointPath, directMode, zkHost, consumerGroup, topic, reporterTopic,
+      enableWAL, checkPointPath, directMode, zkHost, consumerGroup, streamTopic, reporterTopic,
       brokerList, debugMode, coreNumber, probability, windowDuration, windowSlideStep)
 
     run(config)
@@ -76,7 +78,7 @@ object RunBench {
 
   private def run(config: SparkBenchConfig) {
     // select test case based on given benchName
-    val testCase : BenchBase = TestCase.withValue(config.benchName) match {
+    val testCase: BenchBase = TestCase.withValue(config.benchName) match {
       case TestCase.IDENTITY => new Identity()
       case TestCase.REPARTITION => new Repartition()
       case TestCase.WORDCOUNT => new WordCount()
@@ -90,7 +92,7 @@ object RunBench {
     val ssc = new StreamingContext(conf, Milliseconds(config.batchInterval))
     ssc.checkpoint(config.checkpointPath)
 
-    if(!config.debugMode) {
+    if (!config.debugMode) {
       ssc.sparkContext.setLogLevel("ERROR")
     }
 
@@ -103,7 +105,7 @@ object RunBench {
       consumerStrategy)
 
     // convent key from String to Long, it stands for event creation time.
-    val parsedLines = lines.map{ cr => (cr.key().toLong, cr.value()) }
+    val parsedLines = lines.map { cr => (cr.key().toLong, cr.value()) }
     testCase.process(parsedLines, config)
 
     ssc.start()
