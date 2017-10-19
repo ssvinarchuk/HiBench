@@ -402,6 +402,22 @@ INSERT OVERWRITE TABLE uservisits_aggre SELECT sourceIP, SUM(adRevenue) FROM use
 EOF
 }
 
+function hive_sql_aggregation_select() {
+    assert $1 "SQL file path not exist"
+    HIVEBENCH_SQL_FILE=$1
+
+    cat <<EOF > ${HIVEBENCH_SQL_FILE}
+USE DEFAULT;
+set hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat;
+set ${MAP_CONFIG_NAME}=$NUM_MAPS;
+set ${REDUCER_CONFIG_NAME}=$NUM_REDS;
+set hive.stats.autogather=false;
+
+DROP TABLE IF EXISTS uservisits;
+CREATE EXTERNAL TABLE uservisits (sourceIP STRING,destURL STRING,visitDate STRING,adRevenue DOUBLE,userAgent STRING,countryCode STRING,languageCode STRING,searchWord STRING,duration INT ) ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde' STORED AS  SEQUENCEFILE LOCATION '$INPUT_HDFS/uservisits';
+EOF
+}
+
 function prepare_sql_join () {
     assert $1 "SQL file path not exist"
     HIVEBENCH_SQL_FILE=$1
@@ -423,6 +439,29 @@ CREATE EXTERNAL TABLE uservisits_copy (sourceIP STRING,destURL STRING,visitDate 
 DROP TABLE IF EXISTS rankings_uservisits_join;
 CREATE EXTERNAL TABLE rankings_uservisits_join ( sourceIP STRING, avgPageRank DOUBLE, totalRevenue DOUBLE) STORED AS  SEQUENCEFILE LOCATION '$OUTPUT_HDFS/rankings_uservisits_join';
 INSERT OVERWRITE TABLE rankings_uservisits_join SELECT sourceIP, avg(pageRank), sum(adRevenue) as totalRevenue FROM rankings R JOIN (SELECT sourceIP, destURL, adRevenue FROM uservisits_copy UV WHERE (datediff(UV.visitDate, '1999-01-01')>=0 AND datediff(UV.visitDate, '2000-01-01')<=0)) NUV ON (R.pageURL = NUV.destURL) group by sourceIP order by totalRevenue DESC;
+EOF
+}
+
+
+function hive_sql_join() {
+    assert $1 "SQL file path not exist"
+    HIVEBENCH_SQL_FILE=$1
+
+    find . -name "metastore_db" -exec rm -rf "{}" \; 2>/dev/null
+
+    cat <<EOF > ${HIVEBENCH_SQL_FILE}
+USE DEFAULT;
+set hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat;
+set ${MAP_CONFIG_NAME}=$NUM_MAPS;
+set ${REDUCER_CONFIG_NAME}=$NUM_REDS;
+set hive.stats.autogather=false;
+
+
+DROP TABLE IF EXISTS rankings;
+CREATE EXTERNAL TABLE rankings (pageURL STRING, pageRank INT, avgDuration INT) ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde' STORED AS  SEQUENCEFILE LOCATION '$INPUT_HDFS/rankings';
+DROP TABLE IF EXISTS uservisits_copy;
+CREATE EXTERNAL TABLE uservisits_copy (sourceIP STRING,destURL STRING,visitDate STRING,adRevenue DOUBLE,userAgent STRING,countryCode STRING,languageCode STRING,searchWord STRING,duration INT ) ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde' STORED AS  SEQUENCEFILE LOCATION '$INPUT_HDFS/uservisits';
+DROP TABLE IF EXISTS rankings_uservisits_join;
 EOF
 }
 
@@ -448,3 +487,24 @@ INSERT OVERWRITE TABLE uservisits_copy SELECT * FROM uservisits;
 EOF
 
 }
+
+function hive_sql_query_scan () {
+    assert $1 "SQL file path not exist"
+    HIVEBENCH_SQL_FILE=$1
+
+    find . -name "metastore_db" -exec rm -rf "{}" \; 2>/dev/null
+
+    cat <<EOF > ${HIVEBENCH_SQL_FILE}
+USE DEFAULT;
+set hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat;
+set ${MAP_CONFIG_NAME}=$NUM_MAPS;
+set ${REDUCER_CONFIG_NAME}=$NUM_REDS;
+set hive.stats.autogather=false;
+
+
+DROP TABLE IF EXISTS uservisits;
+CREATE EXTERNAL TABLE uservisits (sourceIP STRING,destURL STRING,visitDate STRING,adRevenue DOUBLE,userAgent STRING,countryCode STRING,languageCode STRING,searchWord STRING,duration INT ) ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde' STORED AS  SEQUENCEFILE LOCATION '$INPUT_HDFS/uservisits';
+EOF
+
+}
+

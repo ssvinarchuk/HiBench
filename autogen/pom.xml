@@ -21,6 +21,11 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.mapr.streams</groupId>
+      <artifactId>mapr-streams</artifactId>
+      <version>6.0.0-mapr-beta</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.mahout</groupId>
       <artifactId>mahout-core</artifactId>
       <version>${mahout.version}</version>
@@ -44,7 +49,7 @@
     <dependency>
       <groupId>org.apache.kafka</groupId>
       <artifactId>kafka-clients</artifactId>
-      <version>0.9.0.0-mapr-1611</version>
+      <version>0.9.0.0-mapr-1707</version>
     </dependency>
     <dependency>
       <groupId>org.apache.hadoop</groupId>
@@ -85,4 +90,22 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>cluster6.0.0</id>
+      <properties>
+        <mapr.streams.version>6.0.0-mapr-beta</mapr.streams.version>
+        <mapr.fs.version>6.0.0-mapr-beta</mapr.fs.version>
+        <kafka-clients>0.9.0.0-mapr-1707-streams-6.0.0-beta</kafka-clients>
+      </properties>
+      <activation>
+        <property>
+          <name>cluster</name>
+          <value>6.0.0</value>
+        </property>
+      </activation>
+    </profile>
+
+  </profiles>
 </project>

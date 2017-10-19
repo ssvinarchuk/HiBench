@@ -17,7 +17,9 @@
 
 package com.intel.hibench.sparkbench.streaming.util
 
+import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.spark.storage.StorageLevel
+import org.apache.kafka.common.serialization.StringDeserializer
 
 case class SparkBenchConfig (
   // Spark
@@ -52,11 +54,12 @@ case class SparkBenchConfig (
   }
 
   def kafkaParams = Map (
+    ConsumerConfig.AUTO_OFFSET_RESET_CONFIG -> "earliest",
     "group.id" -> consumerGroup,
     "zookeeper.connect" -> zkHost,
     "metadata.broker.list" -> brokerList,
-    "key.deserializer" -> "org.apache.kafka.common.serialization.ByteArrayDeserializer",
-    "value.deserializer" -> "org.apache.kafka.common.serialization.ByteArrayDeserializer"
+    "key.deserializer" -> classOf[StringDeserializer],
+    "value.deserializer" -> classOf[StringDeserializer]
   )
 
   def threadsPerReceiver = coreNumber / receiverNumber

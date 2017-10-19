@@ -21,7 +21,7 @@ import java.util.Properties
 import java.util.concurrent.Callable
 
 import com.codahale.metrics.Histogram
-import org.apache.kafka.clients.consumer.{ConsumerRecord, KafkaConsumer}
+import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord, KafkaConsumer}
 
 import scala.collection.JavaConverters._
 
@@ -33,7 +33,7 @@ class FetchJob(zkConnect: String, topic: String, partition: Int,
     val consumer = new KafkaConsumer[String, String](consumerProperties)
 
     consumer.subscribe(List(topic).asJava)
-    val records = consumer.poll(1000).iterator().asScala
+    val records = consumer.poll(1000).asScala.filter(_.offset != 0)
     for (record: ConsumerRecord[String, String] <- records) {
       val times = record.value().split(":")
       val startTime = times(0).toLong
@@ -51,11 +51,13 @@ class FetchJob(zkConnect: String, topic: String, partition: Int,
     val props = new Properties()
     props.put("bootstrap.servers", "localhost:9092")
     props.put("group.id", "test")
-    props.put("enable.auto.commit", "true")
+    props.put("enable.auto.commit", "false")
     props.put("auto.commit.interval.ms", "1000")
     props.put("session.timeout.ms", "30000")
     props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
     props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
+    props.put(ConsumerConfig.STREAMS_ZEROOFFSET_RECORD_ON_EOF_CONFIG, "true")
+    props.put("auto.offset.reset", "earliest")
 
     props
   }

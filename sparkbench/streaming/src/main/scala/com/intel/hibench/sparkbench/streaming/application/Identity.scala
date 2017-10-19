@@ -19,7 +19,6 @@ package com.intel.hibench.sparkbench.streaming.application
 
 import com.intel.hibench.common.streaming.metrics.KafkaReporter
 import com.intel.hibench.sparkbench.streaming.util.SparkBenchConfig
-
 import org.apache.spark.streaming.dstream.DStream
 
 class Identity() extends BenchBase {
@@ -28,15 +27,17 @@ class Identity() extends BenchBase {
     val reportTopic = config.reporterTopic
     val brokerList = config.brokerList
 
-    lines.foreachRDD(rdd => rdd.foreachPartition( partLines => {
-      val reporter = new KafkaReporter(reportTopic, brokerList)
-      partLines.foreach{ case (inTime , content) =>
-        val outTime = System.currentTimeMillis()
-        reporter.report(inTime, outTime)
-        if(config.debugMode) {
-          println("Event: " + inTime + ", " + outTime)
+    lines.foreachRDD(rdd => {
+      rdd.foreachPartition( partLines => {
+        val reporter = new KafkaReporter(reportTopic, brokerList)
+        partLines.foreach{ case (inTime , content) =>
+          val outTime = System.currentTimeMillis()
+          reporter.report(inTime, outTime)
+          if(config.debugMode) {
+            println("Event: " + inTime + ", " + outTime)
+          }
         }
-      }
-    }))
+      })
+    })
   }
 }

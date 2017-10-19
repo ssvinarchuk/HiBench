@@ -21,6 +21,7 @@ import com.intel.hibench.common.HiBenchConfig;
 import com.intel.hibench.common.streaming.ConfigLoader;
 import com.intel.hibench.common.streaming.StreamBenchConfig;
 import com.intel.hibench.datagen.streaming.util.DataGeneratorConfig;
+import com.intel.hibench.datagen.streaming.util.KafkaCreator;
 import com.intel.hibench.datagen.streaming.util.KafkaSender;
 import com.intel.hibench.datagen.streaming.util.RecordSendTask;
 
@@ -116,6 +117,13 @@ public class DataGenerator {
         sender = new KafkaSender(conf.getBrokerList(), conf.getUserVisitsFile(), conf.getUserVisitsFileOffset(),
             conf.getDfsMaster(), conf.getRecordLength(), conf.getIntervalSpan());
       }
+
+      // Stream path and topic should be created when we launched run.sh. Otherwise, you may create them by hands,
+      // but you should handle that in RunBench.scala, where we recreating stream and topic with the same names.
+      // You can do this with help of KafkaCreator class
+
+      KafkaCreator kafkaCreator = new KafkaCreator(conf.getTopic().split(":")[0], conf.getTopic().split(":")[1]);
+      kafkaCreator.createPathAndTopic(kafkaCreator.getStreamPath(), kafkaCreator.getTopicName(), 1);
 
       // Schedule timer task
       Timer timer = new Timer();

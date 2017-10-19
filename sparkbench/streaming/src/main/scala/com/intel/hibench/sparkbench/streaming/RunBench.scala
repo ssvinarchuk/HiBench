@@ -17,12 +17,16 @@
 
 package com.intel.hibench.sparkbench.streaming
 
+import java.nio.ByteBuffer
+import java.util.concurrent.atomic.{AtomicBoolean, AtomicInteger}
+
 import com.intel.hibench.common.HiBenchConfig
 import com.intel.hibench.common.streaming.metrics.MetricsUtil
 import com.intel.hibench.common.streaming.{ConfigLoader, Platform, StreamBenchConfig, TestCase}
 import com.intel.hibench.sparkbench.streaming.application._
 import com.intel.hibench.sparkbench.streaming.util.SparkBenchConfig
 import org.apache.kafka.clients.consumer.ConsumerConfig
+import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.kafka09.{ConsumerStrategies, KafkaUtils, LocationStrategies}
 import org.apache.spark.streaming.{Milliseconds, StreamingContext}
@@ -62,9 +66,21 @@ object RunBench {
 
     val producerNum = conf.getProperty(StreamBenchConfig.DATAGEN_PRODUCER_NUMBER).toInt
     val reporterTopic = MetricsUtil.getTopic(Platform.SPARK, streamTopic, producerNum, recordPerInterval, intervalSpan)
+    println("Source Topic: " + streamTopic)
     println("Reporter Topic: " + reporterTopic)
     val reporterTopicPartitions = conf.getProperty(StreamBenchConfig.KAFKA_TOPIC_PARTITIONS).toInt
-    MetricsUtil.createStream(streamPath)
+
+    //TODO add property which handle this
+    // Remove stream and all topics before start data processing
+//    MetricsUtil.deleteStream(streamPath)
+
+    //TODO add property which handle this
+    // Create stream and topic where original data should be
+//    MetricsUtil.createStream(streamPath)
+//    MetricsUtil.createTopic(streamPath, topic, 1)
+
+    // Create topic where we generate data with processing timestamps with format
+    // (time stamps when data was generated in original topic, time stamps when data was processed in spark)
     MetricsUtil.createTopic(streamPath, reporterTopic.substring(reporterTopic.indexOf(":") + 1), reporterTopicPartitions)
 
     val probability = conf.getProperty(StreamBenchConfig.SAMPLE_PROBABILITY).toDouble
@@ -77,6 +93,8 @@ object RunBench {
   }
 
   private def run(config: SparkBenchConfig) {
+
+    val deserializer = new StringDeserializer()
     // select test case based on given benchName
     val testCase: BenchBase = TestCase.withValue(config.benchName) match {
       case TestCase.IDENTITY => new Identity()
@@ -89,12 +107,15 @@ object RunBench {
 
     // defind streaming context
     val conf = new SparkConf().setMaster(config.master).setAppName(config.benchName)
+      .set("spark.streaming.kafka.consumer.poll.ms", "5000")
     val ssc = new StreamingContext(conf, Milliseconds(config.batchInterval))
     ssc.checkpoint(config.checkpointPath)
 
     if (!config.debugMode) {
       ssc.sparkContext.setLogLevel("ERROR")
     }
+
+    println("Source topic in config: " + config.sourceTopic)
 
     val consumerStrategy =
       ConsumerStrategies.Subscribe[String, String](Set(config.sourceTopic), config.kafkaParams)
@@ -106,10 +127,28 @@ object RunBench {
 
     // convent key from String to Long, it stands for event creation time.
     val parsedLines = lines.map { cr => (cr.key().toLong, cr.value()) }
+
+    // method may be used if we want to check processing of existing data
+//    startObserver(ssc)
+
     testCase.process(parsedLines, config)
 
     ssc.start()
     ssc.awaitTermination()
   }
+
+  // Method creating new thread which waiting for stoppApp = true and stops the application
+//  def startObserver(ssc: StreamingContext): Unit = {
+//    new Thread(new Runnable {
+//      override def run(): Unit = {
+//        while (!stopApp.get()) {
+//          Thread.sleep(1500)
+//        }
+//        println("Stopping StreamingContext.")
+//        ssc.stop(stopSparkContext = true, stopGracefully = false)
+//
+//      }
+//    }).start()
+//  }
 
 }

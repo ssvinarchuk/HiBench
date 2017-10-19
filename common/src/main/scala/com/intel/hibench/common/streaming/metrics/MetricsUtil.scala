@@ -16,7 +16,10 @@
  */
 package com.intel.hibench.common.streaming.metrics
 
+import java.lang.Exception
+
 import com.intel.hibench.common.streaming.Platform
+
 import scala.sys.process._
 
 object MetricsUtil {
@@ -25,12 +28,27 @@ object MetricsUtil {
 
   def getTopic(platform: Platform, sourceTopic: String, producerNum: Int,
                recordPerInterval: Long, intervalSpan: Int): String = {
-    println(s"metrics is being written to kafka topic $sourceTopic")
-    sourceTopic
+    val topic = s"${sourceTopic}_${producerNum}_${recordPerInterval}" +
+      s"_${intervalSpan}_${System.currentTimeMillis()}"
+    println(s"metrics is being written to kafka topic $topic")
+    topic
   }
 
   def createTopic(streamPath: String, topicName: String, partitions: Int): Unit = {
-    s"maprcli stream topic create -path $streamPath -topic $topicName -partitions $partitions" !!
+    val createCommand = s"maprcli stream topic create -path $streamPath -topic $topicName -partitions $partitions"
+    println(createCommand)
+    val result = createCommand !!;
+    println(s"Creating topic $topicName. Result : $result")
+  }
+
+  def deleteStream(streamPath: String) : Unit = {
+    val deleteStream = s"maprcli stream delete -path $streamPath"
+    println(s"Try to remove topic $streamPath")
+    try {
+      deleteStream !!
+    } catch {
+      case _: Exception => println(s"Path $streamPath wasn't exist")
+    }
   }
 
   def createStream(streamPath: String): Unit = {
