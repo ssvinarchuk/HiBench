@@ -39,6 +39,7 @@ START_TIME=`timestamp`
 run_hadoop_job ${DATATOOLS} HiBench.DataGen ${OPTION}
 END_TIME=`timestamp`
 SIZE="0"
+echo "time ${START_TIME} ${END_TIME}"
 
 show_bannar finish
 leave_bench

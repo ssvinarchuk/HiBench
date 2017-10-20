@@ -1,0 +1,28 @@
+<property>
+    <name>yarn.nodemanager.resource.memory-mb</name>
+    <value>81920</value>
+</property>
+
+<property>
+<name>yarn.scheduler.maximum-allocation-mb</name>
+<value>15360</value>
+</property>
+
+<property>
+<name>yarn.scheduler.maximum-allocation-vcores</name>
+<value>5</value>
+</property>
+<property>
+<name>yarn.nodemanager.resource.cpu-vcores</name>
+<value>30</value>
+</property>
+
+<property>
+<name>yarn.nodemanager.pmem-check-enabled</name>
+<value>false</value>
+</property>
+
+<property>
+<name>yarn.nodemanager.vmem-check-enabled</name>
+<value>false</value>
+</property>

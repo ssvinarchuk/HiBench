@@ -43,7 +43,6 @@ END_TIME=`timestamp`
 sleep 5
 SIZE=`dir_size $OUTPUT_HDFS`
 echo "time ${START_TIME} ${END_TIME}"
-echo "scale=3;($end-$start)/1000"
 gen_report ${START_TIME} ${END_TIME} ${SIZE:-0}
 show_bannar finish
 leave_bench
