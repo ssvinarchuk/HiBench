@@ -23,9 +23,6 @@ workload_config=${root_dir}/conf/workloads/sql/aggregation.conf
 enter_bench ScalaSparkAggregation ${workload_config} ${current_dir}
 show_bannar start
 
-echo "HIVEBENCH SQL FILE "${WORKLOAD_RESULT_FOLDER}
-echo "INPUT HDFS "$INPUT_HDFS
-
 # prepare SQL
 HIVEBENCH_SQL_FILE=${WORKLOAD_RESULT_FOLDER}/rankings_uservisits_join.hive
 #echo "from ${HIVEBENCH_SQL_FILE_LOCAL} to ${INPUT_HDFS}"

@@ -17,17 +17,14 @@
 current_dir=`dirname "$0"`
 current_dir=`cd "$current_dir"; pwd`
 root_dir=${current_dir}/../../../../../
-workload_config=${root_dir}/conf/workloads/sql/aggregation.conf
+workload_config=${root_dir}/conf/workloads/sql/join.conf
 . "${root_dir}/bin/functions/load_bench_config.sh"
 
 enter_bench ScalaSparkJoin ${workload_config} ${current_dir}
 show_bannar start
 
-echo "HIVEBENCH SQL FILE "${WORKLOAD_RESULT_FOLDER}
-echo "INPUT HDFS "$INPUT_HDFS
-
 # prepare SQL
-HIVEBENCH_SQL_FILE=${WORKLOAD_RESULT_FOLDER}/uservisits_aggre.hive
+HIVEBENCH_SQL_FILE=${WORKLOAD_RESULT_FOLDER}/uservisits_rankings_join.hive
 hive_sql_join ${HIVEBENCH_SQL_FILE}
 
 START_TIME=`timestamp`
