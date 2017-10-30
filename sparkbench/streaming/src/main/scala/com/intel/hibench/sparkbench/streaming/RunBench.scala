@@ -72,12 +72,12 @@ object RunBench {
 
     //TODO add property which handle this
     // Remove stream and all topics before start data processing
-//    MetricsUtil.deleteStream(streamPath)
+    MetricsUtil.deleteStream(streamPath)
 
     //TODO add property which handle this
     // Create stream and topic where original data should be
-//    MetricsUtil.createStream(streamPath)
-//    MetricsUtil.createTopic(streamPath, topic, 1)
+    MetricsUtil.createStream(streamPath)
+    MetricsUtil.createTopic(streamPath, topic, 1)
 
     // Create topic where we generate data with processing timestamps with format
     // (time stamps when data was generated in original topic, time stamps when data was processed in spark)

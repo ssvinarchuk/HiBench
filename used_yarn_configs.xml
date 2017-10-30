@@ -1,3 +1,4 @@
+<!--yarn-site.xml config-->
 <property>
     <name>yarn.nodemanager.resource.memory-mb</name>
     <value>81920</value>
@@ -26,3 +27,8 @@
 <name>yarn.nodemanager.vmem-check-enabled</name>
 <value>false</value>
 </property>
+
+
+<!--MAPRFS CONFIG -->
+MaprFS disks on each node: 6
+strip: 3

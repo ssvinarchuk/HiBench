@@ -122,8 +122,8 @@ public class DataGenerator {
       // but you should handle that in RunBench.scala, where we recreating stream and topic with the same names.
       // You can do this with help of KafkaCreator class
 
-      KafkaCreator kafkaCreator = new KafkaCreator(conf.getTopic().split(":")[0], conf.getTopic().split(":")[1]);
-      kafkaCreator.createPathAndTopic(kafkaCreator.getStreamPath(), kafkaCreator.getTopicName(), 1);
+//      KafkaCreator kafkaCreator = new KafkaCreator(conf.getTopic().split(":")[0], conf.getTopic().split(":")[1]);
+//      kafkaCreator.createPathAndTopic(kafkaCreator.getStreamPath(), kafkaCreator.getTopicName(), 1);
 
       // Schedule timer task
       Timer timer = new Timer();
