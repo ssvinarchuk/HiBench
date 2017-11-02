@@ -108,6 +108,50 @@ function gen_report() {		# dump the result to report file
     echo "# ${REPORT_LINE}" >> ${HIBENCH_WORKLOAD_CONF}
 }
 
+function get_mapr_field_name() {	# print report column header
+    printf "${REPORT_COLUMN_FORMATS}" Type Date Time Uservisits Pages Input_data_size "Duration(s)" "Throughput(bytes/s)" Throughput/node
+}
+
+function gen_mapr_report() {		# dump the result to MapR report file
+    local type=$1
+    local start=$2
+    local end=$3
+    local size=$4
+    local uservisits=$5
+    local pages=$6
+
+    local report_dir=${HIBENCH_HOME}/report
+    local report=${report_dir}/mapr.report
+
+    if [ ! -d ${report_dir} ] ; then
+        mkdir -p ${report_dir}
+    fi
+
+    which bc > /dev/null 2>&1
+    if [ $? -eq 1 ]; then
+	assert 0 "\"bc\" utility missing. Please install it to generate proper report."
+        return 1
+    fi
+    local duration=$(echo "scale=3;($end-$start)/1000"|bc)
+    local tput=`echo "$size/$duration"|bc`
+#    local nodes=`cat ${SPARK_HOME}/conf/slaves 2>/dev/null | grep -v '^\s*$' | sed "/^#/ d" | wc -l`
+    local nodes=`echo ${SLAVES} | wc -w`
+    nodes=${nodes:-1}
+
+    if [ $nodes -eq 0 ]; then nodes=1; fi
+    local tput_node=`echo "$tput/$nodes"|bc`
+
+    REPORT_TITLE=`get_mapr_field_name`
+    if [ ! -f ${report} ] ; then
+        echo "${REPORT_TITLE}" > ${report}
+    fi
+
+    REPORT_LINE=$(printf "${REPORT_COLUMN_FORMATS}" ${type} $(date +%F) $(date +%T) $uservisits $pages $size $duration $tput $tput_node)
+    echo "${REPORT_LINE}" >> ${report}
+    echo "# ${REPORT_TITLE}" >> ${HIBENCH_WORKLOAD_CONF}
+    echo "# ${REPORT_LINE}" >> ${HIBENCH_WORKLOAD_CONF}
+}
+
 function rmr_hdfs(){		# rm -r for hdfs
     assert $1 "dir parameter missing"
     RMDIR_CMD="fs -rm -r -skipTrash"
@@ -180,6 +224,13 @@ function dir_size() {
             echo $item
         fi
     done
+}
+
+function mapr_table_size() {
+
+    local table=$1
+    local size_string_with_comma=$(maprcli table info -path $table -json | grep totalphysicalsize | sed 's/.*://')
+    echo ${size_string_with_comma::-1}
 }
 
 function run_spark_job() {

@@ -38,9 +38,11 @@ run_spark_job com.intel.hibench.sparkbench.sql.ScalaSparkMaprDBBench ScalaAggreg
 END_TIME=`timestamp`
 
 sleep 5
-SIZE=`dir_size $OUTPUT_HDFS`
+SIZE=`mapr_table_size /aggregation`
 echo "time ${START_TIME} ${END_TIME}"
 gen_report ${START_TIME} ${END_TIME} ${SIZE:-0}
+gen_mapr_report MapRScalaSparkAggregation ${START_TIME} ${END_TIME} ${SIZE:-0} ${USERVISITS} ${PAGES}
+
 show_bannar finish
 leave_bench
 

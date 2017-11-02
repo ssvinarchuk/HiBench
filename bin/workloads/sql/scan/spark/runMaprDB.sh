@@ -23,6 +23,8 @@ workload_config=${root_dir}/conf/workloads/sql/scan.conf
 enter_bench ScalaSparkScan ${workload_config} ${current_dir}
 show_bannar start
 
+echo -e "${On_Blue}Pages:${PAGES}, USERVISITS:${USERVISITS}${Color_Off}"
+
 # prepare SQL
 HIVEBENCH_SQL_FILE=${WORKLOAD_RESULT_FOLDER}/rankings_uservisits_scan.hive
 hive_sql_query_scan ${HIVEBENCH_SQL_FILE}
@@ -33,8 +35,10 @@ run_spark_job com.intel.hibench.sparkbench.sql.ScalaSparkMaprDBBench ScalaScan s
 END_TIME=`timestamp`
 
 sleep 5
-SIZE=`dir_size $OUTPUT_HDFS`
+SIZE=`mapr_table_size /scan`
 gen_report ${START_TIME} ${END_TIME} ${SIZE:-0}
+gen_mapr_report MapRScalaSparkScan ${START_TIME} ${END_TIME} ${SIZE:-0} ${USERVISITS} ${PAGES}
+
 show_bannar finish
 leave_bench
 

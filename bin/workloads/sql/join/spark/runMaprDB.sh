@@ -28,7 +28,7 @@ HIVEBENCH_SQL_FILE=${WORKLOAD_RESULT_FOLDER}/uservisits_rankings_join.hive
 hive_sql_join ${HIVEBENCH_SQL_FILE}
 
 START_TIME=`timestamp`
-SIZE=`dir_size $INPUT_HDFS`
+SIZE=`mapr_table_size /uservisits`
 rmr_hdfs $OUTPUT_HDFS
 run_spark_job com.intel.hibench.sparkbench.sql.ScalaSparkMaprDBBench ScalaJoin join uservisits ${HIVEBENCH_SQL_FILE} rankings
 
@@ -36,6 +36,8 @@ run_spark_job com.intel.hibench.sparkbench.sql.ScalaSparkMaprDBBench ScalaJoin j
 sleep 5
 END_TIME=`timestamp`
 gen_report ${START_TIME} ${END_TIME} ${SIZE:-0}
+gen_mapr_report MapRScalaSparkJoin ${START_TIME} ${END_TIME} ${SIZE:-0} ${USERVISITS} ${PAGES}
+
 show_bannar finish
 leave_bench
 

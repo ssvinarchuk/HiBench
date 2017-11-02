@@ -70,9 +70,12 @@ object RunBench {
     println("Reporter Topic: " + reporterTopic)
     val reporterTopicPartitions = conf.getProperty(StreamBenchConfig.KAFKA_TOPIC_PARTITIONS).toInt
 
+    // Test execution time in milliseconds
+    val execTime: Long = conf.getProperty(StreamBenchConfig.EXECUTION_TIME_MS).toLong
+
     //TODO add property which handle this
     // Remove stream and all topics before start data processing
-    MetricsUtil.deleteStream(streamPath)
+     MetricsUtil.deleteStream(streamPath)
 
     //TODO add property which handle this
     // Create stream and topic where original data should be
@@ -87,7 +90,7 @@ object RunBench {
     // init SparkBenchConfig, it will be passed into every test case
     val config = SparkBenchConfig(master, benchName, batchInterval, receiverNumber, copies,
       enableWAL, checkPointPath, directMode, zkHost, consumerGroup, streamTopic, reporterTopic,
-      brokerList, debugMode, coreNumber, probability, windowDuration, windowSlideStep)
+      brokerList, debugMode, coreNumber, probability, windowDuration, windowSlideStep, execTime)
 
     run(config)
   }
@@ -128,27 +131,11 @@ object RunBench {
     // convent key from String to Long, it stands for event creation time.
     val parsedLines = lines.map { cr => (cr.key().toLong, cr.value()) }
 
-    // method may be used if we want to check processing of existing data
-//    startObserver(ssc)
-
     testCase.process(parsedLines, config)
 
     ssc.start()
-    ssc.awaitTermination()
+    ssc.awaitTerminationOrTimeout(config.executionTime)
+    ssc.stop()
   }
-
-  // Method creating new thread which waiting for stoppApp = true and stops the application
-//  def startObserver(ssc: StreamingContext): Unit = {
-//    new Thread(new Runnable {
-//      override def run(): Unit = {
-//        while (!stopApp.get()) {
-//          Thread.sleep(1500)
-//        }
-//        println("Stopping StreamingContext.")
-//        ssc.stop(stopSparkContext = true, stopGracefully = false)
-//
-//      }
-//    }).start()
-//  }
 
 }

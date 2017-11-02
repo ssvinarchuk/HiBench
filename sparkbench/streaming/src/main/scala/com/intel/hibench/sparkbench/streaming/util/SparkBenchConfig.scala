@@ -45,7 +45,9 @@ case class SparkBenchConfig (
   coreNumber: Int,
   sampleProbability: Double,
   windowDuration: Long,
-  windowSlideStep: Long) {
+  windowSlideStep: Long,
+
+  executionTime: Long) {
 
   def storageLevel = copies match {
     case 0 => StorageLevel.MEMORY_ONLY

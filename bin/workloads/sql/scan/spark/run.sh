@@ -35,6 +35,8 @@ END_TIME=`timestamp`
 sleep 5
 SIZE=`dir_size $OUTPUT_HDFS`
 gen_report ${START_TIME} ${END_TIME} ${SIZE:-0}
+gen_mapr_report ScalaSparkScan ${START_TIME} ${END_TIME} ${SIZE:-0} ${USERVISITS} ${PAGES}
+
 show_bannar finish
 leave_bench
 
