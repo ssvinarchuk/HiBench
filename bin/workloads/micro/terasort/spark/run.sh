@@ -31,6 +31,8 @@ run_spark_job com.intel.hibench.sparkbench.micro.ScalaTeraSort $INPUT_HDFS $OUTP
 END_TIME=`timestamp`
 
 gen_report ${START_TIME} ${END_TIME} ${SIZE}
+gen_mapr_report ScalaSparkTerasort ${START_TIME} ${END_TIME} ${SIZE:-0} 0 0
+
 show_bannar finish
 leave_bench
 

@@ -21,10 +21,16 @@ root_dir=`cd "${current_dir}/.."; pwd`
 . ${root_dir}/bin/functions/color.sh
 
 MAPR_REPORT=${root_dir}/report/mapr.report
+MAPR_STREAMS_REPORT=${root_dir}/report/mapr-streams.report
 
 # Remove old MapR report
 if [ -f ${MAPR_REPORT} ] ; then
     rm ${MAPR_REPORT}
+fi
+
+# Remove old MapR Streams report
+if [ -f ${MAPR_STREAMS_REPORT} ] ; then
+    rm ${MAPR_STREAMS_REPORT}
 fi
 
 for benchmark in `cat $root_dir/conf/mapr-spark-benchmarks.lst`; do
@@ -110,7 +116,9 @@ for benchmark in `cat $root_dir/conf/mapr-spark-benchmarks.lst`; do
 
         echo -e "${UYellow}${BYellow}Streaming benchmark ${Yellow}${UYellow}${benchmark} ${BYellow} is done.${Color_Off}"
 
-        # TODO METRICS UTILITY
+        # Generating metrics
+        $WORKLOAD/common/metrics_reader.sh
+
     fi
 
     # found MapR specific script
@@ -124,7 +132,23 @@ for benchmark in `cat $root_dir/conf/mapr-spark-benchmarks.lst`; do
         if [ $result -ne 0 ]
         then
             echo -e "${On_IRed}ERROR: MapR specific ${benchmark}/spark failed to run successfully.${Color_Off}"
-                exit $result
+            exit $result
+        fi
+
+    fi
+
+    # found verification script
+	if [ -f ${WORKLOAD}/spark/verify.sh ]; then
+
+        echo -e "${UYellow}${BYellow}Run verification specific ${Yellow}${UYellow}${benchmark}/spark${Color_Off}"
+        echo -e "${BCyan}Exec script: ${Cyan}$WORKLOAD/spark/verify.sh${Color_Off}"
+        $WORKLOAD/spark/verify.sh
+
+        result=$?
+        if [ $result -ne 0 ]
+        then
+            echo -e "${On_IRed}ERROR: Verification ${benchmark}/spark failed to run successfully.${Color_Off}"
+            exit $result
         fi
 
     fi
@@ -133,3 +157,4 @@ done
 
 echo "Run all done!"
 echo "Report can be found at '${MAPR_REPORT}'"
+echo "Streams report can be found at '${MAPR_STREAMS_REPORT}'"

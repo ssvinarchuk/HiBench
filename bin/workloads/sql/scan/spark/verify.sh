@@ -16,22 +16,28 @@
 
 current_dir=`dirname "$0"`
 current_dir=`cd "$current_dir"; pwd`
-root_dir=${current_dir}/../../../../..
-workload_config=${root_dir}/conf/workloads/websearch/pagerank.conf
+root_dir=${current_dir}/../../../../../
+workload_config=${root_dir}/conf/workloads/sql/scan.conf
 . "${root_dir}/bin/functions/load_bench_config.sh"
 
-enter_bench ScalaSparkPagerank ${workload_config} ${current_dir}
+enter_bench MapRDBScanVerifier ${workload_config} ${current_dir}
 show_bannar start
 
-rmr_hdfs $OUTPUT_HDFS || true
+echo -e "${On_Blue}Pages:${PAGES}, USERVISITS:${USERVISITS}${Color_Off}"
 
-SIZE=`dir_size $INPUT_HDFS`
+# prepare SQL
+HIVEBENCH_SQL_FILE=${WORKLOAD_RESULT_FOLDER}/rankings_uservisits_scan.hive
+hive_sql_query_scan ${HIVEBENCH_SQL_FILE}
+
 START_TIME=`timestamp`
-run_spark_job org.apache.spark.examples.SparkPageRank $INPUT_HDFS/edges $OUTPUT_HDFS $NUM_ITERATIONS
+rmr_hdfs $OUTPUT_HDFS
+run_spark_job com.intel.hibench.sparkbench.sql.ScalaSparkMaprDBVerifier MapRDBScanVerifier scan uservisits ${HIVEBENCH_SQL_FILE}
 END_TIME=`timestamp`
 
-gen_report ${START_TIME} ${END_TIME} ${SIZE}
-gen_mapr_report ScalaSparkPagerank ${START_TIME} ${END_TIME} ${SIZE:-0} 0 0
+sleep 5
+SIZE=`mapr_table_size /scan`
+gen_mapr_report MapRDBScanVerifier ${START_TIME} ${END_TIME} ${SIZE:-0} ${USERVISITS} ${PAGES}
 
 show_bannar finish
 leave_bench
+

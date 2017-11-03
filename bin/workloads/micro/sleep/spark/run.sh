@@ -29,5 +29,7 @@ END_TIME=`timestamp`
 SIZE="0"
 
 gen_report ${START_TIME} ${END_TIME} ${SIZE}
+gen_mapr_report ScalaSparkSleep ${START_TIME} ${END_TIME} ${SIZE:-0} 0 0
+
 show_bannar finish
 leave_bench

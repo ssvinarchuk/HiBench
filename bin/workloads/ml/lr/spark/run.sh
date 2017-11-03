@@ -30,5 +30,7 @@ run_spark_job com.intel.hibench.sparkbench.ml.LogisticRegression ${INPUT_HDFS}
 END_TIME=`timestamp`
 
 gen_report ${START_TIME} ${END_TIME} ${SIZE}
+gen_mapr_report LogisticRegression ${START_TIME} ${END_TIME} ${SIZE:-0} 0 0
+
 show_bannar finish
 leave_bench

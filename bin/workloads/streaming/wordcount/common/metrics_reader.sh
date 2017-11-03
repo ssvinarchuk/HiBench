@@ -25,12 +25,15 @@ show_bannar start
 
 printFullLog
 
-${STREAMING_KAFKA_HOME}/bin/kafka-topics.sh --zookeeper ${STREAMING_ZKADDR} --list
-
-read -p "Please input the topic:" TOPIC
+TOPIC=`get_latest_test_topic`
+if [ -z "$TOPIC" ]; then
+    echo "ERROR: Can not find latest topic for test stream."
+    exit 1
+fi
 
 CMD="${JAVA_BIN} -cp ${COMMON_JAR} com.intel.hibench.common.streaming.metrics.MetricsReader ${STREAMING_ZKADDR} ${TOPIC} ${METRICS_READER_OUTPUT_DIR} ${METRICE_READER_SAMPLE_NUM} ${METRICS_READER_THREAD_NUM}"
 
 execute_withlog $CMD
 
+gen_mapr_streams_report WordCount "${root_dir}/report/${TOPIC}.csv"
 show_bannar finish

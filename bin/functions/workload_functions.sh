@@ -108,10 +108,6 @@ function gen_report() {		# dump the result to report file
     echo "# ${REPORT_LINE}" >> ${HIBENCH_WORKLOAD_CONF}
 }
 
-function get_mapr_field_name() {	# print report column header
-    printf "${REPORT_COLUMN_FORMATS}" Type Date Time Uservisits Pages Input_data_size "Duration(s)" "Throughput(bytes/s)" Throughput/node
-}
-
 function gen_mapr_report() {		# dump the result to MapR report file
     local type=$1
     local start=$2
@@ -141,15 +137,80 @@ function gen_mapr_report() {		# dump the result to MapR report file
     if [ $nodes -eq 0 ]; then nodes=1; fi
     local tput_node=`echo "$tput/$nodes"|bc`
 
-    REPORT_TITLE=`get_mapr_field_name`
+    local REPORT_TITLE='Type,Date,Time,Uservisits,Pages,Input_data_size,Duration(s),Throughput(bytes/s),Throughput/node'
     if [ ! -f ${report} ] ; then
         echo "${REPORT_TITLE}" > ${report}
     fi
 
-    REPORT_LINE=$(printf "${REPORT_COLUMN_FORMATS}" ${type} $(date +%F) $(date +%T) $uservisits $pages $size $duration $tput $tput_node)
+    REPORT_LINE="$type,$(date +%F),$(date +%T),$uservisits,$pages,$size,$duration,$tput,$tput_node"
     echo "${REPORT_LINE}" >> ${report}
     echo "# ${REPORT_TITLE}" >> ${HIBENCH_WORKLOAD_CONF}
     echo "# ${REPORT_LINE}" >> ${HIBENCH_WORKLOAD_CONF}
+}
+
+function gen_mapr_streams_report() {		# dump the result to MapR Streams report file
+
+    assert $1 "Report type is not specified"
+    assert $2 "Original metric file is not specified"
+
+    local type=$1
+    local original=$2
+    if [ ! -f ${original} ] ; then
+        echo "Can not find original metric at '$original'"
+        exit
+    fi
+
+    local report_dir=${HIBENCH_HOME}/report
+    local report=${report_dir}/mapr-streams.report
+
+    if [ ! -d ${report_dir} ] ; then
+        mkdir -p ${report_dir}
+    fi
+
+    local metrics_title=$(cat ${original} | head -n 1)
+    local REPORT_TITLE=$(printf "type,%s" ${metrics_title})
+    if [ ! -f ${report} ] ; then
+        echo "${REPORT_TITLE}" > ${report}
+    fi
+
+    local original_content=$(cat ${original} | tail -n 1)
+    local REPORT_LINE="$type,$original_content"
+    echo "${REPORT_LINE}" >> ${report}
+}
+
+function get_latest_test_topic() {
+
+    local TEST_STREAM_NAME=$(cat ${HIBENCH_HOME}/conf/hibench.conf | grep hibench.streambench.streams.path | awk '{print $2}')
+    local TOPICS=$(maprcli stream topic list -json -path ${TEST_STREAM_NAME} | grep topic | sed 's/.*://')
+    local LATEST_TOPIC=''
+    local LATEST_TOPIC_TIMESTAMP=0
+
+    # find latest topic
+    for t in ${TOPICS}; do
+        local tp=$(echo "${t:1:${#t}-3}") # remove redundant heading/tailing '"' and ',' characters
+
+        # according to com.intel.hibench.common.streaming.metrics.MetricsUtil#getTopic reporting topics tailed
+        # with underscore & timestamp (for example 'identity_1_1000_50_1509645634825')
+        if [[ ${tp} != *"_"* ]]; then
+          continue
+        fi
+
+        # get topic's timestamp
+        local TM=$(echo ${tp} | sed 's/.*_//')
+
+        if [ ${TM} -gt ${LATEST_TOPIC_TIMESTAMP} ]; then
+          LATEST_TOPIC=${tp}
+          LATEST_TOPIC_TIMESTAMP=${TM}
+        fi
+    done
+
+    if [ -z "$LATEST_TOPIC" ]; then
+        exit
+    fi
+
+    local TOPIC="$TEST_STREAM_NAME:$LATEST_TOPIC"
+
+    echo ${TOPIC}
 }
 
 function rmr_hdfs(){		# rm -r for hdfs

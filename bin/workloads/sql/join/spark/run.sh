@@ -36,7 +36,7 @@ sleep 5
 END_TIME=`timestamp`
 
 gen_report ${START_TIME} ${END_TIME} ${SIZE:-0}
-gen_mapr_report ScalaSparkScan ${START_TIME} ${END_TIME} ${SIZE:-0} ${USERVISITS} ${PAGES}
+gen_mapr_report ScalaSparkJoin ${START_TIME} ${END_TIME} ${SIZE:-0} ${USERVISITS} ${PAGES}
 
 show_bannar finish
 leave_bench

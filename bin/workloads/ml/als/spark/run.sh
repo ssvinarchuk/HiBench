@@ -32,5 +32,7 @@ run_spark_job com.intel.hibench.sparkbench.ml.ALSExample --numUsers $NUM_USERS -
 END_TIME=`timestamp`
 
 gen_report ${START_TIME} ${END_TIME} ${SIZE}
+gen_mapr_report ALS ${START_TIME} ${END_TIME} ${SIZE:-0} 0 0
+
 show_bannar finish
 leave_bench

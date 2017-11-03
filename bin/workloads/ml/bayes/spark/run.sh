@@ -30,6 +30,8 @@ run_spark_job org.apache.spark.examples.mllib.SparseNaiveBayes ${INPUT_HDFS}
 END_TIME=`timestamp`
 
 gen_report ${START_TIME} ${END_TIME} ${SIZE}
+gen_mapr_report ScalaSparkBayes ${START_TIME} ${END_TIME} ${SIZE:-0} 0 0
+
 show_bannar finish
 leave_bench
 
