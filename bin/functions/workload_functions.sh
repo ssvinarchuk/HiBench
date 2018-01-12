@@ -117,7 +117,7 @@ function gen_mapr_report() {		# dump the result to MapR report file
     local pages=$6
 
     local report_dir=${HIBENCH_HOME}/report
-    local report=${report_dir}/mapr.report
+    local report=${report_dir}/mapr-report.csv
 
     if [ ! -d ${report_dir} ] ; then
         mkdir -p ${report_dir}
@@ -161,7 +161,7 @@ function gen_mapr_streams_report() {		# dump the result to MapR Streams report f
     fi
 
     local report_dir=${HIBENCH_HOME}/report
-    local report=${report_dir}/mapr-streams.report
+    local report=${report_dir}/mapr-streams-report.csv
 
     if [ ! -d ${report_dir} ] ; then
         mkdir -p ${report_dir}

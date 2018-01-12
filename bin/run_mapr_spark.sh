@@ -20,8 +20,8 @@ root_dir=`cd "${current_dir}/.."; pwd`
 
 . ${root_dir}/bin/functions/color.sh
 
-MAPR_REPORT=${root_dir}/report/mapr.report
-MAPR_STREAMS_REPORT=${root_dir}/report/mapr-streams.report
+MAPR_REPORT=${root_dir}/report/mapr-report.csv
+MAPR_STREAMS_REPORT=${root_dir}/report/mapr-streams-report.csv
 
 # Remove old MapR report
 if [ -f ${MAPR_REPORT} ] ; then

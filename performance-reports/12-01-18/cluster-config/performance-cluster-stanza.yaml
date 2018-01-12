@@ -1,0 +1,1925 @@
+environment:
+  mapr_core_version: 6.0.0
+config:
+  admin_id: mapr
+  cluster_admin_create: true
+  cluster_admin_gid: 5000
+  cluster_admin_group: mapr
+  cluster_admin_id: mapr
+  cluster_admin_uid: 5000
+  cluster_id: '7837220352198114659'
+  cluster_name: my.cluster.com
+  data:
+    diskStripeDefault: 3
+    licenseType: M3
+    licenseValidation: NONE
+    maprversion: 6.0.0
+    process_type: install
+    showAdvancedDiskOptions: true
+    showAdvancedServiceConfig: false
+    showAdvancedServiceSelection: true
+    showLicenseValidation: false
+    showLogs: false
+    template: userdefined
+  db_admin_user: root
+  dial_home_id: '148596143'
+  disk_format: true
+  disk_stripe: 3
+  disks:
+  - /dev/sda
+  - /dev/sdb
+  - /dev/sdc
+  - /dev/sdd
+  - /dev/sdf
+  - /dev/sdg
+  - /dev/sdh
+  - /dev/sdi
+  - /dev/sdj
+  elasticsearch_path: ''
+  environment: ''
+  hosts:
+  - atsqa8c2[32-42].qa.lab
+  install_dir: /opt/mapr/installer
+  installer_version: 1.7.201711082221
+  license_accepted: true
+  license_modules:
+  - DATABASE
+  - HADOOP
+  - STREAMS
+  license_type: M3
+  links:
+    self: https://localhost:9443/api/config
+    services: https://localhost:9443/api/config/services
+  mapr_db: QS
+  mep_version: 4.0.0
+  no_internet: false
+  os_version: redhat_7.3
+  patch_file_missing: false
+  repo_core_url: http://package.mapr.com/releases
+  repo_eco_url: http://package.mapr.com/releases
+  security: true
+  services:
+    mapr-apiserver:
+      enabled: true
+      version: 6.0.0
+    mapr-cldb:
+      enabled: true
+      version: 6.0.0
+    mapr-core:
+      enabled: true
+      version: 6.0.0
+    mapr-drill:
+      enabled: true
+      version: '1.11'
+    mapr-fileserver:
+      enabled: true
+      version: 6.0.0
+    mapr-gateway:
+      enabled: true
+      version: 6.0.0
+    mapr-hbase:
+      enabled: true
+      version: '1.1'
+    mapr-hbase-common:
+      enabled: true
+      version: '1.1'
+    mapr-hbase-rest:
+      enabled: true
+      version: '1.1'
+    mapr-hbasethrift:
+      enabled: true
+      version: '1.1'
+    mapr-historyserver:
+      enabled: true
+      version: 6.0.0
+    mapr-kafka:
+      enabled: true
+      version: 0.9.0
+    mapr-kafka-connect-hdfs:
+      enabled: true
+      version: 2.0.1
+    mapr-kafka-connect-jdbc:
+      enabled: true
+      version: 2.0.1
+    mapr-kafka-rest:
+      enabled: true
+      version: 2.0.1
+    mapr-librdkafka:
+      enabled: true
+      version: 0.9.0
+    mapr-nfs:
+      enabled: true
+      version: 6.0.0
+    mapr-nodemanager:
+      enabled: true
+      version: 6.0.0
+    mapr-resourcemanager:
+      enabled: true
+      version: 6.0.0
+    mapr-spark:
+      enabled: true
+      version: 2.1.0
+    mapr-spark-client:
+      enabled: true
+      version: 2.1.0
+    mapr-spark-historyserver:
+      enabled: true
+      version: 2.1.0
+    mapr-spark-thriftserver:
+      enabled: true
+      version: 2.1.0
+    mapr-streams:
+      enabled: true
+      version: 2.0.1
+    mapr-webserver:
+      enabled: true
+      version: 6.0.0
+    mapr-yarn:
+      enabled: true
+      version: 6.0.0
+    mapr-zookeeper:
+      enabled: true
+      version: 6.0.0
+  services_version: 1.7.201711082221
+  ssh_id: root
+  ssh_method: PASSWORD
+  ssh_port: 22
+  state: COMPLETED
+hosts:
+- completion: 100
+  disks:
+    /dev/sda:
+      selected: true
+      size: 931 GB
+    /dev/sdb:
+      selected: true
+      size: 931 GB
+    /dev/sdc:
+      selected: true
+      size: 931 GB
+    /dev/sdd:
+      selected: true
+      size: 931 GB
+    /dev/sde1:
+      selected: false
+      size: 1 GB
+      unavailable: Disk mounted at /boot
+    /dev/sdf:
+      selected: true
+      size: 931 GB
+    /dev/sdg:
+      selected: true
+      size: 931 GB
+    /dev/sdh:
+      selected: true
+      size: 931 GB
+    /dev/sdi:
+      selected: true
+      size: 931 GB
+    /dev/sdj:
+      selected: true
+      size: 931 GB
+    /dev/sdk:
+      selected: false
+      size: 931 GB
+    /dev/sdl:
+      selected: false
+      size: 931 GB
+    /dev/sdm:
+      selected: false
+      size: 931 GB
+    /dev/vg_root-lv_root:
+      selected: false
+      size: 110 GB
+      unavailable: Disk mounted at /
+  id: atsqa8c232.qa.lab
+  installed: true
+  prereqs:
+    CPU:
+      required: x86_64
+      state: VALID
+      value: x86_64
+    Disks:
+      required: /dev/sde1, /dev/vg_root-lv_root, /dev/sdl, /dev/sdm, /dev/sdj, /dev/sdk,
+        /dev/sdh, /dev/sdi, /dev/sdf, /dev/sdg, /dev/sdd, /dev/sdb, /dev/sdc, /dev/sda
+      state: VALID
+      value: /dev/sda, /dev/sdb, /dev/sdc, /dev/sdd, /dev/sdf, /dev/sdg, /dev/sdh,
+        /dev/sdi, /dev/sdj
+    Distribution:
+      required: SLES,Suse,RedHat,CentOS,Ubuntu
+      state: VALID
+      value: CentOS 7.3.1611
+    Dns:
+      required: consistent
+      state: VALID
+      value: consistent
+    Free /:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    Free /opt:
+      required: 128 GB
+      state: WARN
+      value: 114.3 GB
+    Free /tmp:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    GID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Hadoop:
+      required: absent
+      state: VALID
+      value: absent
+    Home Dir:
+      required: present
+      state: VALID
+      value: ~mapr
+    Hostname:
+      message: ''
+      required: atsqa8c232.qa.lab
+      state: VALID
+      value: atsqa8c232.qa.lab
+    Internet:
+      required: present
+      state: VALID
+      value: present
+    JDK:
+      required: 1.8+
+      value: ''
+    Mounts:
+      required: /, /boot
+      state: VALID
+      value: present
+    Owner /dev/shm:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Owner /tmp:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Perm /dev/shm:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    Perm /tmp:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    RAM:
+      required: 64 GB
+      state: VALID
+      value: 126.0 GB
+    SWAP:
+      required: 12.6 GB
+      state: VALID
+      value: 8.0 GB
+    UID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Yarn:
+      required: absent
+      state: VALID
+      value: absent
+  services:
+  - mapr-resourcemanager-6.0.0
+  - mapr-cldb-6.0.0
+  - mapr-nfs-6.0.0
+  - mapr-gateway-6.0.0
+  - mapr-fileserver-6.0.0
+  - mapr-core-6.0.0
+  - mapr-zookeeper-6.0.0
+  - mapr-apiserver-6.0.0
+  - mapr-webserver-6.0.0
+  state: INSTALLED
+  status: Installed
+  valid: false
+- completion: 100
+  disks:
+    /dev/sda:
+      selected: true
+      size: 931 GB
+    /dev/sdb:
+      selected: true
+      size: 931 GB
+    /dev/sdc:
+      selected: true
+      size: 931 GB
+    /dev/sdd:
+      selected: true
+      size: 931 GB
+    /dev/sde1:
+      selected: false
+      size: 1 GB
+      unavailable: Disk mounted at /boot
+    /dev/sdf:
+      selected: true
+      size: 931 GB
+    /dev/sdg:
+      selected: true
+      size: 931 GB
+    /dev/sdh:
+      selected: true
+      size: 931 GB
+    /dev/sdi:
+      selected: true
+      size: 931 GB
+    /dev/sdj:
+      selected: true
+      size: 931 GB
+    /dev/sdk:
+      selected: false
+      size: 931 GB
+    /dev/sdl:
+      selected: false
+      size: 931 GB
+    /dev/sdm:
+      selected: false
+      size: 931 GB
+    /dev/vg_root-lv_root:
+      selected: false
+      size: 110 GB
+      unavailable: Disk mounted at /
+  id: atsqa8c238.qa.lab
+  installed: true
+  prereqs:
+    CPU:
+      required: x86_64
+      state: VALID
+      value: x86_64
+    Disks:
+      required: /dev/sde1, /dev/vg_root-lv_root, /dev/sdl, /dev/sdm, /dev/sdj, /dev/sdk,
+        /dev/sdh, /dev/sdi, /dev/sdf, /dev/sdg, /dev/sdd, /dev/sdb, /dev/sdc, /dev/sda
+      state: VALID
+      value: /dev/sda, /dev/sdb, /dev/sdc, /dev/sdd, /dev/sdf, /dev/sdg, /dev/sdh,
+        /dev/sdi, /dev/sdj
+    Distribution:
+      required: SLES,Suse,RedHat,CentOS,Ubuntu
+      state: VALID
+      value: CentOS 7.3.1611
+    Dns:
+      required: consistent
+      state: VALID
+      value: consistent
+    Free /:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    Free /opt:
+      required: 128 GB
+      state: WARN
+      value: 114.3 GB
+    Free /tmp:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    GID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Hadoop:
+      required: absent
+      state: VALID
+      value: absent
+    Home Dir:
+      required: present
+      state: VALID
+      value: ~mapr
+    Hostname:
+      message: ''
+      required: atsqa8c238.qa.lab
+      state: VALID
+      value: atsqa8c238.qa.lab
+    Internet:
+      required: present
+      state: VALID
+      value: present
+    JDK:
+      required: 1.8+
+      value: ''
+    Mounts:
+      required: /, /boot
+      state: VALID
+      value: present
+    Owner /dev/shm:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Owner /tmp:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Perm /dev/shm:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    Perm /tmp:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    RAM:
+      required: 64 GB
+      state: VALID
+      value: 126.0 GB
+    SWAP:
+      required: 12.6 GB
+      state: VALID
+      value: 8.0 GB
+    UID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Yarn:
+      required: absent
+      state: VALID
+      value: absent
+  services:
+  - mapr-spark-client-2.1.0
+  - mapr-hbase-1.1
+  - mapr-kafka-rest-2.0.1
+  - mapr-kafka-connect-jdbc-2.0.1
+  - mapr-hbase-rest-1.1
+  - mapr-fileserver-6.0.0
+  - mapr-core-6.0.0
+  - mapr-drill-1.11
+  - mapr-librdkafka-0.9.0
+  - mapr-nodemanager-6.0.0
+  - mapr-kafka-connect-hdfs-2.0.1
+  - mapr-kafka-0.9.0
+  state: INSTALLED
+  status: Installed
+  valid: false
+- completion: 100
+  disks:
+    /dev/sda:
+      selected: true
+      size: 931 GB
+    /dev/sdb:
+      selected: true
+      size: 931 GB
+    /dev/sdc:
+      selected: true
+      size: 931 GB
+    /dev/sdd:
+      selected: true
+      size: 931 GB
+    /dev/sde1:
+      selected: false
+      size: 1 GB
+      unavailable: Disk mounted at /boot
+    /dev/sdf:
+      selected: true
+      size: 931 GB
+    /dev/sdg:
+      selected: true
+      size: 931 GB
+    /dev/sdh:
+      selected: true
+      size: 931 GB
+    /dev/sdi:
+      selected: true
+      size: 931 GB
+    /dev/sdj:
+      selected: true
+      size: 931 GB
+    /dev/sdk:
+      selected: false
+      size: 931 GB
+    /dev/sdl:
+      selected: false
+      size: 931 GB
+    /dev/sdm:
+      selected: false
+      size: 931 GB
+    /dev/vg_root-lv_root:
+      selected: false
+      size: 110 GB
+      unavailable: Disk mounted at /
+  id: atsqa8c235.qa.lab
+  installed: true
+  prereqs:
+    CPU:
+      required: x86_64
+      state: VALID
+      value: x86_64
+    Disks:
+      required: /dev/sde1, /dev/vg_root-lv_root, /dev/sdl, /dev/sdm, /dev/sdj, /dev/sdk,
+        /dev/sdh, /dev/sdi, /dev/sdf, /dev/sdg, /dev/sdd, /dev/sdb, /dev/sdc, /dev/sda
+      state: VALID
+      value: /dev/sda, /dev/sdb, /dev/sdc, /dev/sdd, /dev/sdf, /dev/sdg, /dev/sdh,
+        /dev/sdi, /dev/sdj
+    Distribution:
+      required: SLES,Suse,RedHat,CentOS,Ubuntu
+      state: VALID
+      value: CentOS 7.3.1611
+    Dns:
+      required: consistent
+      state: VALID
+      value: consistent
+    Free /:
+      required: 10 GB
+      state: VALID
+      value: 113.7 GB
+    Free /opt/mapr:
+      required: 128 GB
+      state: WARN
+      value: 113.7 GB
+    Free /tmp:
+      required: 10 GB
+      state: VALID
+      value: 113.7 GB
+    GID:
+      required: '5000'
+      state: VALID
+      value: '5000'
+    Hadoop:
+      required: absent
+      state: VALID
+      value: absent
+    Home Dir:
+      required: present
+      state: VALID
+      value: ~mapr
+    Hostname:
+      message: ''
+      required: atsqa8c235.qa.lab
+      state: VALID
+      value: atsqa8c235.qa.lab
+    Internet:
+      required: present
+      state: VALID
+      value: present
+    JDK:
+      required: 1.8+
+      state: VALID
+      value: '1.8'
+    Mounts:
+      required: /, /boot
+      state: VALID
+      value: present
+    Owner /dev/shm:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Owner /tmp:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Perm /dev/shm:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    Perm /tmp:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    RAM:
+      required: 64 GB
+      state: VALID
+      value: 126.0 GB
+    SWAP:
+      required: 12.6 GB
+      state: VALID
+      value: 8.0 GB
+    UID:
+      required: '5000'
+      state: VALID
+      value: '5000'
+    Yarn:
+      required: absent
+      state: VALID
+      value: absent
+  services:
+  - mapr-hbase-1.1
+  - mapr-kafka-rest-2.0.1
+  - mapr-kafka-connect-jdbc-2.0.1
+  - mapr-historyserver-6.0.0
+  - mapr-spark-thriftserver-2.1.0
+  - mapr-hbase-rest-1.1
+  - mapr-fileserver-6.0.0
+  - mapr-spark-historyserver-2.1.0
+  - mapr-kafka-connect-hdfs-2.0.1
+  - mapr-spark-client-2.1.0
+  - mapr-core-6.0.0
+  - mapr-drill-1.11
+  - mapr-librdkafka-0.9.0
+  - mapr-hbasethrift-1.1
+  - mapr-nodemanager-6.0.0
+  - mapr-kafka-0.9.0
+  state: INSTALLED
+  status: Installed
+  valid: false
+- completion: 100
+  disks:
+    /dev/sda:
+      selected: true
+      size: 931 GB
+    /dev/sdb:
+      selected: true
+      size: 931 GB
+    /dev/sdc:
+      selected: true
+      size: 931 GB
+    /dev/sdd:
+      selected: true
+      size: 931 GB
+    /dev/sde1:
+      selected: false
+      size: 1 GB
+      unavailable: Disk mounted at /boot
+    /dev/sdf:
+      selected: true
+      size: 931 GB
+    /dev/sdg:
+      selected: true
+      size: 931 GB
+    /dev/sdh:
+      selected: true
+      size: 931 GB
+    /dev/sdi:
+      selected: true
+      size: 931 GB
+    /dev/sdj:
+      selected: true
+      size: 931 GB
+    /dev/sdk:
+      selected: false
+      size: 931 GB
+    /dev/sdl:
+      selected: false
+      size: 931 GB
+    /dev/sdm:
+      selected: false
+      size: 931 GB
+    /dev/vg_root-lv_root:
+      selected: false
+      size: 110 GB
+      unavailable: Disk mounted at /
+  id: atsqa8c233.qa.lab
+  installed: true
+  prereqs:
+    CPU:
+      required: x86_64
+      state: VALID
+      value: x86_64
+    Disks:
+      required: /dev/sde1, /dev/vg_root-lv_root, /dev/sdl, /dev/sdm, /dev/sdj, /dev/sdk,
+        /dev/sdh, /dev/sdi, /dev/sdf, /dev/sdg, /dev/sdd, /dev/sdb, /dev/sdc, /dev/sda
+      state: VALID
+      value: /dev/sda, /dev/sdb, /dev/sdc, /dev/sdd, /dev/sdf, /dev/sdg, /dev/sdh,
+        /dev/sdi, /dev/sdj
+    Distribution:
+      required: SLES,Suse,RedHat,CentOS,Ubuntu
+      state: VALID
+      value: CentOS 7.3.1611
+    Dns:
+      required: consistent
+      state: VALID
+      value: consistent
+    Free /:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    Free /opt:
+      required: 128 GB
+      state: WARN
+      value: 114.3 GB
+    Free /tmp:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    GID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Hadoop:
+      required: absent
+      state: VALID
+      value: absent
+    Home Dir:
+      required: present
+      state: VALID
+      value: ~mapr
+    Hostname:
+      message: ''
+      required: atsqa8c233.qa.lab
+      state: VALID
+      value: atsqa8c233.qa.lab
+    Internet:
+      required: present
+      state: VALID
+      value: present
+    JDK:
+      required: 1.8+
+      value: ''
+    Mounts:
+      required: /, /boot
+      state: VALID
+      value: present
+    Owner /dev/shm:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Owner /tmp:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Perm /dev/shm:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    Perm /tmp:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    RAM:
+      required: 64 GB
+      state: VALID
+      value: 126.0 GB
+    SWAP:
+      required: 12.6 GB
+      state: VALID
+      value: 8.0 GB
+    UID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Yarn:
+      required: absent
+      state: VALID
+      value: absent
+  services:
+  - mapr-resourcemanager-6.0.0
+  - mapr-gateway-6.0.0
+  - mapr-fileserver-6.0.0
+  - mapr-core-6.0.0
+  - mapr-zookeeper-6.0.0
+  - mapr-apiserver-6.0.0
+  - mapr-webserver-6.0.0
+  state: INSTALLED
+  status: Installed
+  valid: false
+- completion: 100
+  disks:
+    /dev/sda:
+      selected: true
+      size: 931 GB
+    /dev/sdb:
+      selected: true
+      size: 931 GB
+    /dev/sdc:
+      selected: true
+      size: 931 GB
+    /dev/sdd:
+      selected: true
+      size: 931 GB
+    /dev/sde1:
+      selected: false
+      size: 1 GB
+      unavailable: Disk mounted at /boot
+    /dev/sdf:
+      selected: true
+      size: 931 GB
+    /dev/sdg:
+      selected: true
+      size: 931 GB
+    /dev/sdh:
+      selected: true
+      size: 931 GB
+    /dev/sdi:
+      selected: true
+      size: 931 GB
+    /dev/sdj:
+      selected: true
+      size: 931 GB
+    /dev/sdk:
+      selected: false
+      size: 931 GB
+    /dev/sdl:
+      selected: false
+      size: 931 GB
+    /dev/sdm:
+      selected: false
+      size: 931 GB
+    /dev/vg_root-lv_root:
+      selected: false
+      size: 110 GB
+      unavailable: Disk mounted at /
+  id: atsqa8c242.qa.lab
+  installed: true
+  prereqs:
+    CPU:
+      required: x86_64
+      state: VALID
+      value: x86_64
+    Disks:
+      required: /dev/sde1, /dev/vg_root-lv_root, /dev/sdl, /dev/sdm, /dev/sdj, /dev/sdk,
+        /dev/sdh, /dev/sdi, /dev/sdf, /dev/sdg, /dev/sdd, /dev/sdb, /dev/sdc, /dev/sda
+      state: VALID
+      value: /dev/sda, /dev/sdb, /dev/sdc, /dev/sdd, /dev/sdf, /dev/sdg, /dev/sdh,
+        /dev/sdi, /dev/sdj
+    Distribution:
+      required: SLES,Suse,RedHat,CentOS,Ubuntu
+      state: VALID
+      value: CentOS 7.3.1611
+    Dns:
+      required: consistent
+      state: VALID
+      value: consistent
+    Free /:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    Free /opt:
+      required: 128 GB
+      state: WARN
+      value: 114.3 GB
+    Free /tmp:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    GID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Hadoop:
+      required: absent
+      state: VALID
+      value: absent
+    Home Dir:
+      required: present
+      state: VALID
+      value: ~mapr
+    Hostname:
+      message: ''
+      required: atsqa8c242.qa.lab
+      state: VALID
+      value: atsqa8c242.qa.lab
+    Internet:
+      required: present
+      state: VALID
+      value: present
+    JDK:
+      required: 1.8+
+      value: ''
+    Mounts:
+      required: /, /boot
+      state: VALID
+      value: present
+    Owner /dev/shm:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Owner /tmp:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Perm /dev/shm:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    Perm /tmp:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    RAM:
+      required: 64 GB
+      state: VALID
+      value: 126.0 GB
+    SWAP:
+      required: 12.6 GB
+      state: VALID
+      value: 8.0 GB
+    UID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Yarn:
+      required: absent
+      state: VALID
+      value: absent
+  services:
+  - mapr-spark-client-2.1.0
+  - mapr-hbase-1.1
+  - mapr-kafka-rest-2.0.1
+  - mapr-kafka-connect-jdbc-2.0.1
+  - mapr-hbase-rest-1.1
+  - mapr-fileserver-6.0.0
+  - mapr-core-6.0.0
+  - mapr-drill-1.11
+  - mapr-librdkafka-0.9.0
+  - mapr-nodemanager-6.0.0
+  - mapr-kafka-connect-hdfs-2.0.1
+  - mapr-kafka-0.9.0
+  state: INSTALLED
+  status: Installed
+  valid: false
+- completion: 100
+  disks:
+    /dev/sda:
+      selected: true
+      size: 931 GB
+    /dev/sdb:
+      selected: true
+      size: 931 GB
+    /dev/sdc:
+      selected: true
+      size: 931 GB
+    /dev/sdd:
+      selected: true
+      size: 931 GB
+    /dev/sde1:
+      selected: false
+      size: 1 GB
+      unavailable: Disk mounted at /boot
+    /dev/sdf:
+      selected: true
+      size: 931 GB
+    /dev/sdg:
+      selected: true
+      size: 931 GB
+    /dev/sdh:
+      selected: true
+      size: 931 GB
+    /dev/sdi:
+      selected: true
+      size: 931 GB
+    /dev/sdj:
+      selected: true
+      size: 931 GB
+    /dev/sdk:
+      selected: false
+      size: 931 GB
+    /dev/sdl:
+      selected: false
+      size: 931 GB
+    /dev/sdm:
+      selected: false
+      size: 931 GB
+    /dev/vg_root-lv_root:
+      selected: false
+      size: 110 GB
+      unavailable: Disk mounted at /
+  id: atsqa8c236.qa.lab
+  installed: true
+  prereqs:
+    CPU:
+      required: x86_64
+      state: VALID
+      value: x86_64
+    Disks:
+      required: /dev/sde1, /dev/vg_root-lv_root, /dev/sdl, /dev/sdm, /dev/sdj, /dev/sdk,
+        /dev/sdh, /dev/sdi, /dev/sdf, /dev/sdg, /dev/sdd, /dev/sdb, /dev/sdc, /dev/sda
+      state: VALID
+      value: /dev/sda, /dev/sdb, /dev/sdc, /dev/sdd, /dev/sdf, /dev/sdg, /dev/sdh,
+        /dev/sdi, /dev/sdj
+    Distribution:
+      required: SLES,Suse,RedHat,CentOS,Ubuntu
+      state: VALID
+      value: CentOS 7.3.1611
+    Dns:
+      required: consistent
+      state: VALID
+      value: consistent
+    Free /:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    Free /opt:
+      required: 128 GB
+      state: WARN
+      value: 114.3 GB
+    Free /tmp:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    GID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Hadoop:
+      required: absent
+      state: VALID
+      value: absent
+    Home Dir:
+      required: present
+      state: VALID
+      value: ~mapr
+    Hostname:
+      message: ''
+      required: atsqa8c236.qa.lab
+      state: VALID
+      value: atsqa8c236.qa.lab
+    Internet:
+      required: present
+      state: VALID
+      value: present
+    JDK:
+      required: 1.8+
+      value: ''
+    Mounts:
+      required: /, /boot
+      state: VALID
+      value: present
+    Owner /dev/shm:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Owner /tmp:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Perm /dev/shm:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    Perm /tmp:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    RAM:
+      required: 64 GB
+      state: VALID
+      value: 126.0 GB
+    SWAP:
+      required: 12.6 GB
+      state: VALID
+      value: 8.0 GB
+    UID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Yarn:
+      required: absent
+      state: VALID
+      value: absent
+  services:
+  - mapr-spark-client-2.1.0
+  - mapr-hbase-1.1
+  - mapr-kafka-rest-2.0.1
+  - mapr-kafka-connect-jdbc-2.0.1
+  - mapr-hbase-rest-1.1
+  - mapr-fileserver-6.0.0
+  - mapr-core-6.0.0
+  - mapr-drill-1.11
+  - mapr-librdkafka-0.9.0
+  - mapr-nodemanager-6.0.0
+  - mapr-kafka-connect-hdfs-2.0.1
+  - mapr-kafka-0.9.0
+  state: INSTALLED
+  status: Installed
+  valid: false
+- completion: 100
+  disks:
+    /dev/sda:
+      selected: true
+      size: 931 GB
+    /dev/sdb:
+      selected: true
+      size: 931 GB
+    /dev/sdc:
+      selected: true
+      size: 931 GB
+    /dev/sdd:
+      selected: true
+      size: 931 GB
+    /dev/sde1:
+      selected: false
+      size: 1 GB
+      unavailable: Disk mounted at /boot
+    /dev/sdf:
+      selected: true
+      size: 931 GB
+    /dev/sdg:
+      selected: true
+      size: 931 GB
+    /dev/sdh:
+      selected: true
+      size: 931 GB
+    /dev/sdi:
+      selected: true
+      size: 931 GB
+    /dev/sdj:
+      selected: true
+      size: 931 GB
+    /dev/sdk:
+      selected: false
+      size: 931 GB
+    /dev/sdl:
+      selected: false
+      size: 931 GB
+    /dev/sdm:
+      selected: false
+      size: 931 GB
+    /dev/vg_root-lv_root:
+      selected: false
+      size: 110 GB
+      unavailable: Disk mounted at /
+  id: atsqa8c239.qa.lab
+  installed: true
+  prereqs:
+    CPU:
+      required: x86_64
+      state: VALID
+      value: x86_64
+    Disks:
+      required: /dev/sde1, /dev/vg_root-lv_root, /dev/sdl, /dev/sdm, /dev/sdj, /dev/sdk,
+        /dev/sdh, /dev/sdi, /dev/sdf, /dev/sdg, /dev/sdd, /dev/sdb, /dev/sdc, /dev/sda
+      state: VALID
+      value: /dev/sda, /dev/sdb, /dev/sdc, /dev/sdd, /dev/sdf, /dev/sdg, /dev/sdh,
+        /dev/sdi, /dev/sdj
+    Distribution:
+      required: SLES,Suse,RedHat,CentOS,Ubuntu
+      state: VALID
+      value: CentOS 7.3.1611
+    Dns:
+      required: consistent
+      state: VALID
+      value: consistent
+    Free /:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    Free /opt:
+      required: 128 GB
+      state: WARN
+      value: 114.3 GB
+    Free /tmp:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    GID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Hadoop:
+      required: absent
+      state: VALID
+      value: absent
+    Home Dir:
+      required: present
+      state: VALID
+      value: ~mapr
+    Hostname:
+      message: ''
+      required: atsqa8c239.qa.lab
+      state: VALID
+      value: atsqa8c239.qa.lab
+    Internet:
+      required: present
+      state: VALID
+      value: present
+    JDK:
+      required: 1.8+
+      value: ''
+    Mounts:
+      required: /, /boot
+      state: VALID
+      value: present
+    Owner /dev/shm:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Owner /tmp:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Perm /dev/shm:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    Perm /tmp:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    RAM:
+      required: 64 GB
+      state: VALID
+      value: 126.0 GB
+    SWAP:
+      required: 12.6 GB
+      state: VALID
+      value: 8.0 GB
+    UID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Yarn:
+      required: absent
+      state: VALID
+      value: absent
+  services:
+  - mapr-spark-client-2.1.0
+  - mapr-hbase-1.1
+  - mapr-kafka-rest-2.0.1
+  - mapr-kafka-connect-jdbc-2.0.1
+  - mapr-hbase-rest-1.1
+  - mapr-fileserver-6.0.0
+  - mapr-core-6.0.0
+  - mapr-drill-1.11
+  - mapr-librdkafka-0.9.0
+  - mapr-nodemanager-6.0.0
+  - mapr-kafka-connect-hdfs-2.0.1
+  - mapr-kafka-0.9.0
+  state: INSTALLED
+  status: Installed
+  valid: false
+- completion: 100
+  disks:
+    /dev/sda:
+      selected: true
+      size: 931 GB
+    /dev/sdb:
+      selected: true
+      size: 931 GB
+    /dev/sdc:
+      selected: true
+      size: 931 GB
+    /dev/sdd:
+      selected: true
+      size: 931 GB
+    /dev/sde1:
+      selected: false
+      size: 1 GB
+      unavailable: Disk mounted at /boot
+    /dev/sdf:
+      selected: true
+      size: 931 GB
+    /dev/sdg:
+      selected: true
+      size: 931 GB
+    /dev/sdh:
+      selected: true
+      size: 931 GB
+    /dev/sdi:
+      selected: true
+      size: 931 GB
+    /dev/sdj:
+      selected: true
+      size: 931 GB
+    /dev/sdk:
+      selected: false
+      size: 931 GB
+    /dev/sdl:
+      selected: false
+      size: 931 GB
+    /dev/sdm:
+      selected: false
+      size: 931 GB
+    /dev/vg_root-lv_root:
+      selected: false
+      size: 110 GB
+      unavailable: Disk mounted at /
+  id: atsqa8c237.qa.lab
+  installed: true
+  prereqs:
+    CPU:
+      required: x86_64
+      state: VALID
+      value: x86_64
+    Disks:
+      required: /dev/sde1, /dev/vg_root-lv_root, /dev/sdl, /dev/sdm, /dev/sdj, /dev/sdk,
+        /dev/sdh, /dev/sdi, /dev/sdf, /dev/sdg, /dev/sdd, /dev/sdb, /dev/sdc, /dev/sda
+      state: VALID
+      value: /dev/sda, /dev/sdb, /dev/sdc, /dev/sdd, /dev/sdf, /dev/sdg, /dev/sdh,
+        /dev/sdi, /dev/sdj
+    Distribution:
+      required: SLES,Suse,RedHat,CentOS,Ubuntu
+      state: VALID
+      value: CentOS 7.3.1611
+    Dns:
+      required: consistent
+      state: VALID
+      value: consistent
+    Free /:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    Free /opt:
+      required: 128 GB
+      state: WARN
+      value: 114.3 GB
+    Free /tmp:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    GID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Hadoop:
+      required: absent
+      state: VALID
+      value: absent
+    Home Dir:
+      required: present
+      state: VALID
+      value: ~mapr
+    Hostname:
+      message: ''
+      required: atsqa8c237.qa.lab
+      state: VALID
+      value: atsqa8c237.qa.lab
+    Internet:
+      required: present
+      state: VALID
+      value: present
+    JDK:
+      required: 1.8+
+      value: ''
+    Mounts:
+      required: /, /boot
+      state: VALID
+      value: present
+    Owner /dev/shm:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Owner /tmp:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Perm /dev/shm:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    Perm /tmp:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    RAM:
+      required: 64 GB
+      state: VALID
+      value: 126.0 GB
+    SWAP:
+      required: 12.6 GB
+      state: VALID
+      value: 8.0 GB
+    UID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Yarn:
+      required: absent
+      state: VALID
+      value: absent
+  services:
+  - mapr-spark-client-2.1.0
+  - mapr-hbase-1.1
+  - mapr-kafka-rest-2.0.1
+  - mapr-kafka-connect-jdbc-2.0.1
+  - mapr-hbase-rest-1.1
+  - mapr-fileserver-6.0.0
+  - mapr-core-6.0.0
+  - mapr-drill-1.11
+  - mapr-librdkafka-0.9.0
+  - mapr-nodemanager-6.0.0
+  - mapr-kafka-connect-hdfs-2.0.1
+  - mapr-kafka-0.9.0
+  state: INSTALLED
+  status: Installed
+  valid: false
+- completion: 100
+  disks:
+    /dev/sda:
+      selected: true
+      size: 931 GB
+    /dev/sdb:
+      selected: true
+      size: 931 GB
+    /dev/sdc:
+      selected: true
+      size: 931 GB
+    /dev/sdd:
+      selected: true
+      size: 931 GB
+    /dev/sde1:
+      selected: false
+      size: 1 GB
+      unavailable: Disk mounted at /boot
+    /dev/sdf:
+      selected: true
+      size: 931 GB
+    /dev/sdg:
+      selected: true
+      size: 931 GB
+    /dev/sdh:
+      selected: true
+      size: 931 GB
+    /dev/sdi:
+      selected: true
+      size: 931 GB
+    /dev/sdj:
+      selected: true
+      size: 931 GB
+    /dev/sdk:
+      selected: false
+      size: 931 GB
+    /dev/sdl:
+      selected: false
+      size: 931 GB
+    /dev/sdm:
+      selected: false
+      size: 931 GB
+    /dev/vg_root-lv_root:
+      selected: false
+      size: 110 GB
+      unavailable: Disk mounted at /
+  id: atsqa8c241.qa.lab
+  installed: true
+  prereqs:
+    CPU:
+      required: x86_64
+      state: VALID
+      value: x86_64
+    Disks:
+      required: /dev/sde1, /dev/vg_root-lv_root, /dev/sdl, /dev/sdm, /dev/sdj, /dev/sdk,
+        /dev/sdh, /dev/sdi, /dev/sdf, /dev/sdg, /dev/sdd, /dev/sdb, /dev/sdc, /dev/sda
+      state: VALID
+      value: /dev/sda, /dev/sdb, /dev/sdc, /dev/sdd, /dev/sdf, /dev/sdg, /dev/sdh,
+        /dev/sdi, /dev/sdj
+    Distribution:
+      required: SLES,Suse,RedHat,CentOS,Ubuntu
+      state: VALID
+      value: CentOS 7.3.1611
+    Dns:
+      required: consistent
+      state: VALID
+      value: consistent
+    Free /:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    Free /opt:
+      required: 128 GB
+      state: WARN
+      value: 114.3 GB
+    Free /tmp:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    GID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Hadoop:
+      required: absent
+      state: VALID
+      value: absent
+    Home Dir:
+      required: present
+      state: VALID
+      value: ~mapr
+    Hostname:
+      message: ''
+      required: atsqa8c241.qa.lab
+      state: VALID
+      value: atsqa8c241.qa.lab
+    Internet:
+      required: present
+      state: VALID
+      value: present
+    JDK:
+      required: 1.8+
+      value: ''
+    Mounts:
+      required: /, /boot
+      state: VALID
+      value: present
+    Owner /dev/shm:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Owner /tmp:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Perm /dev/shm:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    Perm /tmp:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    RAM:
+      required: 64 GB
+      state: VALID
+      value: 126.0 GB
+    SWAP:
+      required: 12.6 GB
+      state: VALID
+      value: 8.0 GB
+    UID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Yarn:
+      required: absent
+      state: VALID
+      value: absent
+  services:
+  - mapr-spark-client-2.1.0
+  - mapr-hbase-1.1
+  - mapr-kafka-rest-2.0.1
+  - mapr-kafka-connect-jdbc-2.0.1
+  - mapr-hbase-rest-1.1
+  - mapr-fileserver-6.0.0
+  - mapr-core-6.0.0
+  - mapr-drill-1.11
+  - mapr-librdkafka-0.9.0
+  - mapr-nodemanager-6.0.0
+  - mapr-kafka-connect-hdfs-2.0.1
+  - mapr-kafka-0.9.0
+  state: INSTALLED
+  status: Installed
+  valid: false
+- completion: 100
+  disks:
+    /dev/sda:
+      selected: true
+      size: 931 GB
+    /dev/sdb:
+      selected: true
+      size: 931 GB
+    /dev/sdc:
+      selected: true
+      size: 931 GB
+    /dev/sdd:
+      selected: true
+      size: 931 GB
+    /dev/sde1:
+      selected: false
+      size: 1 GB
+      unavailable: Disk mounted at /boot
+    /dev/sdf:
+      selected: true
+      size: 931 GB
+    /dev/sdg:
+      selected: true
+      size: 931 GB
+    /dev/sdh:
+      selected: true
+      size: 931 GB
+    /dev/sdi:
+      selected: true
+      size: 931 GB
+    /dev/sdj:
+      selected: true
+      size: 931 GB
+    /dev/sdk:
+      selected: false
+      size: 931 GB
+    /dev/sdl:
+      selected: false
+      size: 931 GB
+    /dev/sdm:
+      selected: false
+      size: 931 GB
+    /dev/vg_root-lv_root:
+      selected: false
+      size: 110 GB
+      unavailable: Disk mounted at /
+  id: atsqa8c234.qa.lab
+  installed: true
+  prereqs:
+    CPU:
+      required: x86_64
+      state: VALID
+      value: x86_64
+    Disks:
+      required: /dev/sde1, /dev/vg_root-lv_root, /dev/sdl, /dev/sdm, /dev/sdj, /dev/sdk,
+        /dev/sdh, /dev/sdi, /dev/sdf, /dev/sdg, /dev/sdd, /dev/sdb, /dev/sdc, /dev/sda
+      state: VALID
+      value: /dev/sda, /dev/sdb, /dev/sdc, /dev/sdd, /dev/sdf, /dev/sdg, /dev/sdh,
+        /dev/sdi, /dev/sdj
+    Distribution:
+      required: SLES,Suse,RedHat,CentOS,Ubuntu
+      state: VALID
+      value: CentOS 7.3.1611
+    Dns:
+      required: consistent
+      state: VALID
+      value: consistent
+    Free /:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    Free /opt:
+      required: 128 GB
+      state: WARN
+      value: 114.3 GB
+    Free /tmp:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    GID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Hadoop:
+      required: absent
+      state: VALID
+      value: absent
+    Home Dir:
+      required: present
+      state: VALID
+      value: ~mapr
+    Hostname:
+      message: ''
+      required: atsqa8c234.qa.lab
+      state: VALID
+      value: atsqa8c234.qa.lab
+    Internet:
+      required: present
+      state: VALID
+      value: present
+    JDK:
+      required: 1.8+
+      value: ''
+    Mounts:
+      required: /, /boot
+      state: VALID
+      value: present
+    Owner /dev/shm:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Owner /tmp:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Perm /dev/shm:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    Perm /tmp:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    RAM:
+      required: 64 GB
+      state: VALID
+      value: 126.0 GB
+    SWAP:
+      required: 12.6 GB
+      state: VALID
+      value: 8.0 GB
+    UID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Yarn:
+      required: absent
+      state: VALID
+      value: absent
+  services:
+  - mapr-resourcemanager-6.0.0
+  - mapr-gateway-6.0.0
+  - mapr-fileserver-6.0.0
+  - mapr-core-6.0.0
+  - mapr-zookeeper-6.0.0
+  - mapr-apiserver-6.0.0
+  - mapr-webserver-6.0.0
+  state: INSTALLED
+  status: Installed
+  valid: false
+- completion: 100
+  disks:
+    /dev/sda:
+      selected: true
+      size: 931 GB
+    /dev/sdb:
+      selected: true
+      size: 931 GB
+    /dev/sdc:
+      selected: true
+      size: 931 GB
+    /dev/sdd:
+      selected: true
+      size: 931 GB
+    /dev/sde1:
+      selected: false
+      size: 1 GB
+      unavailable: Disk mounted at /boot
+    /dev/sdf:
+      selected: true
+      size: 931 GB
+    /dev/sdg:
+      selected: true
+      size: 931 GB
+    /dev/sdh:
+      selected: true
+      size: 931 GB
+    /dev/sdi:
+      selected: true
+      size: 931 GB
+    /dev/sdj:
+      selected: true
+      size: 931 GB
+    /dev/sdk:
+      selected: false
+      size: 931 GB
+    /dev/sdl:
+      selected: false
+      size: 931 GB
+    /dev/sdm:
+      selected: false
+      size: 931 GB
+    /dev/vg_root-lv_root:
+      selected: false
+      size: 110 GB
+      unavailable: Disk mounted at /
+  id: atsqa8c240.qa.lab
+  installed: true
+  prereqs:
+    CPU:
+      required: x86_64
+      state: VALID
+      value: x86_64
+    Disks:
+      required: /dev/sde1, /dev/vg_root-lv_root, /dev/sdl, /dev/sdm, /dev/sdj, /dev/sdk,
+        /dev/sdh, /dev/sdi, /dev/sdf, /dev/sdg, /dev/sdd, /dev/sdb, /dev/sdc, /dev/sda
+      state: VALID
+      value: /dev/sda, /dev/sdb, /dev/sdc, /dev/sdd, /dev/sdf, /dev/sdg, /dev/sdh,
+        /dev/sdi, /dev/sdj
+    Distribution:
+      required: SLES,Suse,RedHat,CentOS,Ubuntu
+      state: VALID
+      value: CentOS 7.3.1611
+    Dns:
+      required: consistent
+      state: VALID
+      value: consistent
+    Free /:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    Free /opt:
+      required: 128 GB
+      state: WARN
+      value: 114.3 GB
+    Free /tmp:
+      required: 10 GB
+      state: VALID
+      value: 114.3 GB
+    GID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Hadoop:
+      required: absent
+      state: VALID
+      value: absent
+    Home Dir:
+      required: present
+      state: VALID
+      value: ~mapr
+    Hostname:
+      message: ''
+      required: atsqa8c240.qa.lab
+      state: VALID
+      value: atsqa8c240.qa.lab
+    Internet:
+      required: present
+      state: VALID
+      value: present
+    JDK:
+      required: 1.8+
+      value: ''
+    Mounts:
+      required: /, /boot
+      state: VALID
+      value: present
+    Owner /dev/shm:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Owner /tmp:
+      required: uid 0
+      state: VALID
+      value: uid 0
+    Perm /dev/shm:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    Perm /tmp:
+      required: '01777'
+      state: VALID
+      value: '01777'
+    RAM:
+      required: 64 GB
+      state: VALID
+      value: 126.0 GB
+    SWAP:
+      required: 12.6 GB
+      state: VALID
+      value: 8.0 GB
+    UID:
+      required: '5000'
+      state: VALID
+      value: '-'
+    Yarn:
+      required: absent
+      state: VALID
+      value: absent
+  services:
+  - mapr-spark-client-2.1.0
+  - mapr-hbase-1.1
+  - mapr-kafka-rest-2.0.1
+  - mapr-kafka-connect-jdbc-2.0.1
+  - mapr-hbase-rest-1.1
+  - mapr-fileserver-6.0.0
+  - mapr-core-6.0.0
+  - mapr-drill-1.11
+  - mapr-librdkafka-0.9.0
+  - mapr-nodemanager-6.0.0
+  - mapr-kafka-connect-hdfs-2.0.1
+  - mapr-kafka-0.9.0
+  state: INSTALLED
+  status: Installed
+  valid: false
+groups:
+- hosts:
+  - atsqa8c232.qa.lab
+  - atsqa8c233.qa.lab
+  - atsqa8c234.qa.lab
+  label: CONTROL
+  services:
+  - mapr-zookeeper-6.0.0
+- hosts:
+  - atsqa8c232.qa.lab
+  - atsqa8c233.qa.lab
+  - atsqa8c234.qa.lab
+  label: MULTI_MASTER
+  services:
+  - mapr-resourcemanager-6.0.0
+  - mapr-gateway-6.0.0
+  - mapr-apiserver-6.0.0
+  - mapr-webserver-6.0.0
+- hosts:
+  - atsqa8c235.qa.lab
+  label: MASTER
+  services:
+  - mapr-historyserver-6.0.0
+  - mapr-spark-thriftserver-2.1.0
+  - mapr-hbasethrift-1.1
+  - mapr-spark-historyserver-2.1.0
+- hosts:
+  - atsqa8c239.qa.lab
+  - atsqa8c240.qa.lab
+  - atsqa8c241.qa.lab
+  - atsqa8c236.qa.lab
+  - atsqa8c237.qa.lab
+  - atsqa8c238.qa.lab
+  - atsqa8c242.qa.lab
+  - atsqa8c235.qa.lab
+  label: DATA
+  services:
+  - mapr-hbase-rest-1.1
+  - mapr-drill-1.11
+  - mapr-nodemanager-6.0.0
+- hosts:
+  - atsqa8c239.qa.lab
+  - atsqa8c240.qa.lab
+  - atsqa8c241.qa.lab
+  - atsqa8c236.qa.lab
+  - atsqa8c237.qa.lab
+  - atsqa8c238.qa.lab
+  - atsqa8c242.qa.lab
+  - atsqa8c235.qa.lab
+  label: CLIENT
+  services:
+  - mapr-spark-client-2.1.0
+  - mapr-hbase-1.1
+  - mapr-kafka-rest-2.0.1
+  - mapr-kafka-connect-jdbc-2.0.1
+  - mapr-librdkafka-0.9.0
+  - mapr-kafka-connect-hdfs-2.0.1
+  - mapr-kafka-0.9.0
+- hosts:
+  - atsqa8c239.qa.lab
+  - atsqa8c240.qa.lab
+  - atsqa8c241.qa.lab
+  - atsqa8c236.qa.lab
+  - atsqa8c237.qa.lab
+  - atsqa8c238.qa.lab
+  - atsqa8c232.qa.lab
+  - atsqa8c242.qa.lab
+  - atsqa8c233.qa.lab
+  - atsqa8c234.qa.lab
+  - atsqa8c235.qa.lab
+  label: DEFAULT
+  services:
+  - mapr-fileserver-6.0.0
+  - mapr-core-6.0.0
+- hosts:
+  - atsqa8c232.qa.lab
+  label: COMMUNITY_EDITION
+  services:
+  - mapr-cldb-6.0.0
+  - mapr-nfs-6.0.0
