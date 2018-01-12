@@ -37,7 +37,7 @@
     <dependency>
       <groupId>com.mapr.db</groupId>
       <artifactId>maprdb-spark</artifactId>
-      <version>6.0.0-mapr-SNAPSHOT</version>
+      <version>6.0.0-mapr</version>
       <scope>provided</scope>
     </dependency>
 

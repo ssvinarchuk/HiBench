@@ -64,7 +64,7 @@
       <snapshots><enabled>true</enabled></snapshots>
       <releases><enabled>true</enabled></releases>
     </repository>
-    <repository>
+    <!-- repository>
       <id>repository_cv</id>
       <name>Private MapR repo for CyberVision</name>
       <url>http://23.21.204.176/nexus/content/groups/mapr-public/</url>
@@ -74,7 +74,7 @@
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
-    </repository>
+    </repository -->
     <repository>
       <id>central</id>
       <!-- This should be at top, it makes maven try the central repo first and then others and hence faster dep resolution -->
@@ -98,11 +98,11 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
-    <repository>
+    <!--repository>
       <id>scala-tools.org</id>
       <name>Scala-tools Maven 2 Repository</name>
       <url>https://oss.sonatype.org/content/groups/scala-tools/</url>
-    </repository>
+    </repository-->
   </repositories>
   <pluginRepositories>
     <pluginRepository>
