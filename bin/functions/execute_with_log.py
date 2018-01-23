@@ -69,7 +69,7 @@ def show_with_progress_bar(line, progress, line_width):
     pos = int(line_width * progress / 100)
     if len(line) < line_width:
         line = line + " " * (line_width - len(line))
-    line = "{On_Yellow}{line_seg1}{On_Blue}{line_seg2}{Color_Off}{ret}".format(
+    line = "{On_Green}{line_seg1}{On_Blue}{line_seg2}{Color_Off}{ret}".format(
         line_seg1 = line[:pos], line_seg2 = line[pos:], **Color)
     sys.stdout.write(line)
 
