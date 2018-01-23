@@ -6,6 +6,7 @@ streaming.wordcount
 sql.aggregation
 sql.join
 sql.scan
+sql.scanrdd
 
 micro.sleep
 micro.sort

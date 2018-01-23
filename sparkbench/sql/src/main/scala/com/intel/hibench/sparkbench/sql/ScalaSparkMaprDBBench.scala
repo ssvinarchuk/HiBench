@@ -3,7 +3,10 @@ package com.intel.hibench.sparkbench.sql
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.hive.HiveContext
 import com.mapr.db.MapRDB
+import com.mapr.db.spark._
+import com.mapr.db.spark.impl.OJAIDocument
 import com.mapr.db.spark.sql._
+import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{Column, DataFrame, SparkSession}
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.expressions.Window
@@ -49,6 +52,7 @@ object ScalaSparkMaprDBBench {
       case "ScalaAggregation" => aggregationBench(spark, resultTableName, expectedTableName)
       case "ScalaJoin" => joinBench(spark, resultTableName, expectedTableName, args(4))
       case "ScalaScan" => scanBench(spark, resultTableName, expectedTableName)
+      case "ScalaScanRDD" => scanRDDBench(spark.sparkContext, resultTableName, expectedTableName)
       case _ => println(s"$resultTableName function is not defined")
     }
 
@@ -128,5 +132,17 @@ object ScalaSparkMaprDBBench {
 
     // save data to MapRDB
     dataFromDB.saveToMapRDB(PATH_TO_DBS + resultTableName, createTable = true)
+  }
+
+  def scanRDDBench(sc: SparkContext, resultTableName: String, expectedTableName: String) = {
+    println("Start scan RDD bench")
+    val rdd: RDD[OJAIDocument] = sc.loadFromMapRDB(PATH_TO_DBS + expectedTableName)
+
+    if (MapRDB.tableExists(PATH_TO_DBS + resultTableName)) {
+      println(s"Delete table $resultTableName")
+      MapRDB.deleteTable(PATH_TO_DBS + resultTableName)
+    }
+
+    rdd.saveToMapRDB(PATH_TO_DBS + resultTableName, createTable = true)
   }
 }
