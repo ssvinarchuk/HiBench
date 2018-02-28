@@ -37,4 +37,4 @@ rm -fr /opt/hadoop-2.6.5/logs/*
 /opt/mapr/hadoop/hadoop-2.7.0/sbin/start-yarn.sh
 
 # restart spark
-/opt/mapr/spark/spark-2.1.0/sbin/start-all.sh
+/opt/mapr/spark/spark-2.2.1/sbin/start-all.sh

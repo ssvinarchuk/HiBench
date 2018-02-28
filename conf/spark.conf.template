@@ -1,5 +1,5 @@
 # Spark home
-hibench.spark.home      /opt/mapr/spark/spark-2.1.0
+hibench.spark.home      /opt/mapr/spark/spark-2.2.1
 
 # Spark master
 #   standalone mode: spark://xxx:7077

@@ -75,6 +75,18 @@
         <enabled>true</enabled>
       </snapshots>
     </repository -->
+
+    <repository>
+            <id>mapr-cv</id>
+            <url>http://repository_cv.mapr.com/nexus/content/groups/mapr-public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+
     <repository>
       <id>central</id>
       <!-- This should be at top, it makes maven try the central repo first and then others and hence faster dep resolution -->

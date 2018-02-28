@@ -134,6 +134,9 @@ object RunBench {
     testCase.process(parsedLines, config)
 
     ssc.start()
+ 
+    println("EXECUTION TIME: " + config.executionTime)
+
     ssc.awaitTerminationOrTimeout(config.executionTime)
     ssc.stop()
   }
