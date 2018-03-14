@@ -55,6 +55,6 @@ class StructuredIdentity() extends StructuredBenchBase {
       })
       .start()
 
-    query.awaitTermination()
+    query.awaitTermination(config.executionTime)
   }
 }

@@ -114,6 +114,7 @@
         <module>graph</module>
         <module>sql</module>
         <module>streaming</module>
+        <module>structuredStreaming</module>
       </modules>
       <activation>
         <property>
@@ -173,6 +174,21 @@
         <property>
           <name>spark</name>
           <value>2.1</value>
+        </property>
+      </activation>
+    </profile>
+
+
+    <profile>
+      <id>spark2.2.1</id>
+      <properties>
+        <spark.version>2.2.1-mapr-SNAPSHOT</spark.version>
+        <spark.bin.version>2..2.1</spark.bin.version>
+      </properties>
+      <activation>
+        <property>
+          <name>spark</name>
+          <value>2.2.1</value>
         </property>
       </activation>
     </profile>

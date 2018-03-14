@@ -44,7 +44,7 @@ for benchmark in `cat $root_dir/conf/mapr-spark-benchmarks.lst`; do
     WORKLOAD=$root_dir/bin/workloads/${benchmark}
 
     # Non-streaming benchmark
-    if [[ $benchmark != *"streaming"* ]]; then
+    if [[ $benchmark != *"streaming"* ]] && [[ $benchmark != *"structuredStreaming"* ]]; then
 
         # Prepare
         echo -e "${BCyan}Exec script: ${Cyan}${WORKLOAD}/prepare/prepare.sh${Color_Off}"
@@ -72,7 +72,7 @@ for benchmark in `cat $root_dir/conf/mapr-spark-benchmarks.lst`; do
     fi
 
     # Streaming benchmark
-    if [[ $benchmark == *"streaming"* ]]; then
+    if [[ $benchmark == *"streaming"* ]] || [[ $benchmark == *"structuredStreaming"* ]]; then
 
         # Seed dataset generation
         echo -e "${BCyan}Exec streaming seed dataset generator script: ${Cyan}${WORKLOAD}/prepare/genSeedDataset.sh${Color_Off}"

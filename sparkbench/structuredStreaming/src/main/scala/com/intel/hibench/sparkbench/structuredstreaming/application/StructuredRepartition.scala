@@ -57,6 +57,6 @@ class StructuredRepartition() extends StructuredBenchBase {
       })
       .start()
 
-    query.awaitTermination()
+    query.awaitTermination(config.executionTime)
   }
 }

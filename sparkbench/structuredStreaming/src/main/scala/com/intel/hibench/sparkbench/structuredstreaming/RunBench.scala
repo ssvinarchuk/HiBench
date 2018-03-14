@@ -27,7 +27,7 @@ import org.apache.spark.SparkConf
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.streaming.dstream.DStream
-import org.apache.spark.streaming.kafka.KafkaUtils
+import org.apache.spark.streaming.kafka010.KafkaUtils
 import org.apache.spark.streaming.{Milliseconds, StreamingContext}
 
 /**
@@ -49,6 +49,8 @@ object RunBench {
     val directMode = conf.getProperty(StreamBenchConfig.SPARK_USE_DIRECT_MODE).toBoolean
     val benchName = conf.getProperty(StreamBenchConfig.TESTCASE)
     val topic = conf.getProperty(StreamBenchConfig.KAFKA_TOPIC)
+    val streamPath = conf.getProperty(StreamBenchConfig.STRAMS_PATH)
+    val streamTopic = streamPath + ":" + topic
     val zkHost = conf.getProperty(StreamBenchConfig.ZK_HOST)
     val consumerGroup = conf.getProperty(StreamBenchConfig.CONSUMER_GROUP)
     val brokerList = conf.getProperty(StreamBenchConfig.KAFKA_BROKER_LIST)
@@ -62,16 +64,28 @@ object RunBench {
     val coreNumber = conf.getProperty(HiBenchConfig.YARN_EXECUTOR_NUMBER).toInt * conf.getProperty(HiBenchConfig.YARN_EXECUTOR_CORES).toInt
 
     val producerNum = conf.getProperty(StreamBenchConfig.DATAGEN_PRODUCER_NUMBER).toInt
-    val reporterTopic = MetricsUtil.getTopic(Platform.SPARK, topic, producerNum, recordPerInterval, intervalSpan)
+    val reporterTopic = MetricsUtil.getTopic(Platform.SPARK, streamTopic, producerNum, recordPerInterval, intervalSpan)
+
+    println("Source Topic: " + streamTopic)
     println("Reporter Topic: " + reporterTopic)
+
     val reporterTopicPartitions = conf.getProperty(StreamBenchConfig.KAFKA_TOPIC_PARTITIONS).toInt
-    MetricsUtil.createTopic(zkHost, reporterTopic, reporterTopicPartitions)
+
+    // Test execution time in milliseconds
+    val execTime: Long = conf.getProperty(StreamBenchConfig.EXECUTION_TIME_MS).toLong
+
+    MetricsUtil.deleteStream(streamPath)
+    MetricsUtil.createStream(streamPath)
+    MetricsUtil.createTopic(streamPath, topic, 1)
+
+    MetricsUtil.createTopic(streamPath, reporterTopic.substring(reporterTopic.indexOf(":") + 1), reporterTopicPartitions)
+
 
     val probability = conf.getProperty(StreamBenchConfig.SAMPLE_PROBABILITY).toDouble
     // init SparkBenchConfig, it will be passed into every test case
     val config = SparkBenchConfig(master, benchName, batchInterval, receiverNumber, copies,
-      enableWAL, checkPointPath, directMode, zkHost, consumerGroup, topic, reporterTopic,
-      brokerList, debugMode, coreNumber, probability, windowDuration, windowSlideStep)
+      enableWAL, checkPointPath, directMode, zkHost, consumerGroup, streamTopic, reporterTopic,
+      brokerList, debugMode, coreNumber, probability, windowDuration, windowSlideStep, execTime)
 
     runStructured(config)
   }

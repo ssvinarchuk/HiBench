@@ -89,19 +89,41 @@
       <dependencies>
         <dependency>
           <groupId>org.apache.spark</groupId>
-          <artifactId>spark-streaming-kafka-0-8_${scala.binary.version}</artifactId>
-          <version>2.1.0</version>
+          <artifactId>spark-streaming-kafka-0-10_${scala.binary.version}</artifactId>
+          <version>2.2.1-mapr-SNAPSHOT</version>
         </dependency>
         <dependency>
           <groupId>org.apache.spark</groupId>
           <artifactId>spark-sql-kafka-0-10_${scala.binary.version}</artifactId>
-          <version>2.1.0</version>
+          <version>2.2.1-mapr-SNAPSHOT</version>
         </dependency>
       </dependencies>
       <activation>
         <property>
           <name>spark</name>
           <value>2.1</value>
+        </property>
+      </activation>
+    </profile>
+
+    <profile>
+      <id>spark2.2.1</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.spark</groupId>
+          <artifactId>spark-streaming-kafka-0-10_${scala.binary.version}</artifactId>
+          <version>2.2.1-mapr-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.spark</groupId>
+          <artifactId>spark-sql-kafka-0-10_${scala.binary.version}</artifactId>
+          <version>2.2.1-mapr-SNAPSHOT</version>
+        </dependency>
+      </dependencies>
+      <activation>
+        <property>
+          <name>spark</name>
+          <value>2.2.1</value>
         </property>
       </activation>
     </profile>
