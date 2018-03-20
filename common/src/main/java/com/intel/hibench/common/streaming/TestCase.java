@@ -41,7 +41,9 @@ public enum TestCase {
 
   DISTINCTCOUNT("distinctCount"),
 
-  STATISTICS("statistics");
+  STATISTICS("statistics"),
+
+  STRUCTGROUPBY("structGroupBy");
   // =========================================================
 
   private String name;

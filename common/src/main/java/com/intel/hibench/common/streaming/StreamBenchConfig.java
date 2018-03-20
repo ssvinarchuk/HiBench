@@ -85,6 +85,10 @@ public class StreamBenchConfig {
 
   public static String SPARK_RECEIVER_NUMBER = "hibench.streambench.spark.receiverNumber";
 
+  public static String SPARK_STRUCT_STREAMS_KEY_COUNT = "hibench.structStreaming.datagen.key.number";
+
+  public static String SPARK_STRUCT_STREAMS_ROW_MULTIPLIER = "hibench.structStreaming.datagen.row.multiplier";
+
   // ======================================
   // Flink Related Conf
   // ======================================

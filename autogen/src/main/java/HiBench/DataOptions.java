@@ -17,16 +17,17 @@ public class DataOptions {
 	private static final int NUM_LINUX_DICT_WORD = 479623;
 
 	public static enum DataType {
-		HIVE, PAGERANK, BAYES, NUTCH, NONE
+		HIVE, PAGERANK, BAYES, NUTCH, NONE, STRUCTDATA
 	}
 	private DataType type;
 
 	private String base, dname;
-	private Path workPath, resultPath;
+	private Path workPath, resultPath, inputPath;
 	
 	private int maps, reds;
 	private long pages, slotpages;
 	private int words;
+	private long rowMultiplier;
 	
 	private boolean sequenceOut;
 	private Class<? extends CompressionCodec> codecClass;
@@ -41,6 +42,7 @@ public class DataOptions {
 		reds = -1;
 		pages = -1;
 		words = -1;
+		rowMultiplier = -1;
 		sequenceOut = false;
 		codecClass = null;
 		remainArgs = new StringBuffer("");
@@ -64,6 +66,10 @@ public class DataOptions {
 				type = DataType.NUTCH;
 				words = NUM_LINUX_DICT_WORD;
 				dname = "nutch";
+			}
+			else if ("struct".equalsIgnoreCase(args[1])) {
+				type = DataType.STRUCTDATA;
+				dname = "struct";
 			} else {
 				System.exit(printUsage("Error: arguments syntax error!!!"));
 			}
@@ -87,19 +93,25 @@ public class DataOptions {
 			} else if ("-c".equals(args[i])) {
 				codecClass =
 						Class.forName(args[++i]).asSubclass(CompressionCodec.class);
-			} else {
+			}else if("-rm".equals(args[i])) {
+				rowMultiplier = Long.parseLong(args[++i]);
+			}else if ("-f".equals(args[i])) {
+				inputPath = new Path(args[++i]);
+			}else {
 				remainArgs.append(args[i]).append(" ");
 				remainArgs.append(args[++i]).append(" ");
 			}
 		}
 		
 		checkOptions();
-		
-		slotpages = (long) Math.ceil(pages * 1.0 / maps);
+		if(!type.equals(DataType.STRUCTDATA)) {
+			slotpages = (long) Math.ceil(pages * 1.0 / maps);
+		}
 
 		resultPath = new Path(base, dname);
 //		workPath = new Path(resultPath, TEMP_DIR);
 		workPath = new Path(base, TEMP_DIR);
+
 	}
 	
 	private void checkOptions() {
@@ -123,6 +135,11 @@ public class DataOptions {
 		case NUTCH:
 			if (pages<=0 || words<=0) {
 				System.exit(printUsage("Error: pages/words of nutch data should be larger than 0!!!"));
+			}
+			break;
+		case STRUCTDATA:
+			if (rowMultiplier <=0) {
+				System.exit(printUsage("Error: count of rows data should be larger than 0!!!"));
 			}
 			break;
 		default:
@@ -202,6 +219,13 @@ public class DataOptions {
 	
 	public boolean isSequenceOut() {
 		return sequenceOut;
+	}
+
+	public long getRowMultiplier() {
+		return rowMultiplier;
+	}
+	public Path getInputPath() {
+		return inputPath;
 	}
 	
 	public Class<? extends CompressionCodec> getCodecClass() {

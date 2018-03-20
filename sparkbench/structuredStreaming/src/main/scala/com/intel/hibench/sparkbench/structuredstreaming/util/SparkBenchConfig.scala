@@ -44,6 +44,8 @@ case class SparkBenchConfig (
   sampleProbability: Double,
   windowDuration: Long,
   windowSlideStep: Long,
+  keyCount: Long,
+  rowMultiplier: Long,
 
   executionTime: Long) {
 

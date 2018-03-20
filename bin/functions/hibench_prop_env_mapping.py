@@ -154,6 +154,9 @@ HiBenchEnvPropMapping=dict(
     STREAMING_DATA2_CLUSTER_DIR="hibench.streambench.datagen.data2_cluster.dir",
     STREAMING_PARTITIONS="hibench.streambench.kafka.topicPartitions",
     DATA_GEN_JAR="hibench.streambench.datagen.jar",
+    STRUCT_STREAMING_KEY_NUMBER="hibench.structStreaming.datagen.key.number",
+    STRUCT_STREAMING_ROW_MULTIPLIER="hibench.structStreaming.datagen.row.multiplier",
+
 
     # metrics reader
     METRICE_READER_SAMPLE_NUM="hibench.streambench.metricsReader.sampleNum",

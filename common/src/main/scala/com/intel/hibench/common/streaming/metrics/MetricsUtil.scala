@@ -51,6 +51,16 @@ object MetricsUtil {
     }
   }
 
+  def deleteTopic(streamPath: String, topicName: String) : Unit = {
+    val deleteStream = s"maprcli stream topic delete -path $streamPath -topic $topicName"
+    println(s"Try to remove topic $streamPath:$topicName")
+    try {
+      deleteStream !!
+    } catch {
+      case _: Exception => println(s"Topic $topicName wasn't exist")
+    }
+  }
+
   def createStream(streamPath: String): Unit = {
     s"/opt/mapr/bin/maprcli stream create -path $streamPath" !
   }

@@ -34,6 +34,11 @@ public class DataGen extends Configured implements Tool {
 				data.generate();
 				break;
 			}
+			case STRUCTDATA: {
+				StructData data = new StructData(options);
+				data.generate();
+				break;
+			}
 			default:
 				break;
 		}
