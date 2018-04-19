@@ -48,8 +48,11 @@ public class KafkaSender {
         "org.apache.kafka.common.serialization.ByteArraySerializer");
     props.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
         "org.apache.kafka.common.serialization.ByteArraySerializer");
-    props.setProperty(ProducerConfig.ACKS_CONFIG, "1");
+    props.setProperty(ProducerConfig.ACKS_CONFIG, "all");
     props.getProperty(ProducerConfig.CLIENT_ID_CONFIG, "DataGenerator");
+    props.setProperty(ProducerConfig.LINGER_MS_CONFIG, "500");
+    props.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, "256000");
+
 
     this.kafkaProducer = new KafkaProducer(props);
 

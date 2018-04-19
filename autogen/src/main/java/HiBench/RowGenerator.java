@@ -58,29 +58,4 @@ public class RowGenerator {
             }
         }
     }
-
-//    private static void checkOptions() {
-//        if (keyCount < 1) {
-//            System.exit(printUsage("Error: pages of pagerank data should be larger than 0!!!"));
-//        }
-//    }
-
-//    private static void  writeToFile(String path, String row) throws IOException {
-////        File file = new File(path);
-////
-////        if(!file.exists()) {
-////            file.createNewFile();
-////        }
-////
-////        FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
-////        BufferedWriter bw = new BufferedWriter(fw);
-////
-////        bw.write(row);
-////        bw.newLine();
-//
-////        PrintWriter writer = new PrintWriter(path, "UTF-8");
-
-//
-//
-//    }
 }

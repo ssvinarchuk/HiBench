@@ -66,12 +66,12 @@ object RunBench {
     val producerNum = conf.getProperty(StreamBenchConfig.DATAGEN_PRODUCER_NUMBER).toInt
     val reporterTopic = MetricsUtil.getTopic(Platform.SPARK, streamTopic, producerNum, recordPerInterval, intervalSpan)
     val keyCount = conf.getProperty(StreamBenchConfig.SPARK_STRUCT_STREAMS_KEY_COUNT).toLong
-    val rowMultiplier = conf.getProperty(StreamBenchConfig.SPARK_STRUCT_STREAMS_ROW_MULTIPLIER).toLong
+    val totalRecord = conf.getProperty(StreamBenchConfig.DATAGEN_TOTAL_RECORDS).toLong
 
     println("Source Topic: " + streamTopic)
     println("Reporter Topic: " + reporterTopic)
 
-    val reporterTopicPartitions = conf.getProperty(StreamBenchConfig.KAFKA_TOPIC_PARTITIONS).toInt
+    val topicPartitions = conf.getProperty(StreamBenchConfig.KAFKA_TOPIC_PARTITIONS).toInt
 
     // Test execution time in milliseconds
     val execTime: Long = conf.getProperty(StreamBenchConfig.EXECUTION_TIME_MS).toLong
@@ -79,9 +79,9 @@ object RunBench {
     MetricsUtil.deleteTopic(streamPath, topic)
     MetricsUtil.deleteStream(streamPath)
     MetricsUtil.createStream(streamPath)
-    MetricsUtil.createTopic(streamPath, topic, 1)
+    MetricsUtil.createTopic(streamPath, topic, topicPartitions)
 
-    MetricsUtil.createTopic(streamPath, reporterTopic.substring(reporterTopic.indexOf(":") + 1), reporterTopicPartitions)
+    MetricsUtil.createTopic(streamPath, reporterTopic.substring(reporterTopic.indexOf(":") + 1), topicPartitions)
 
 
     val probability = conf.getProperty(StreamBenchConfig.SAMPLE_PROBABILITY).toDouble
@@ -89,7 +89,7 @@ object RunBench {
     val config = SparkBenchConfig(master, benchName, batchInterval, receiverNumber, copies,
       enableWAL, checkPointPath, directMode, zkHost, consumerGroup, streamTopic, reporterTopic,
       brokerList, debugMode, coreNumber, probability, windowDuration, windowSlideStep, keyCount,
-      rowMultiplier, execTime)
+      totalRecord, execTime)
 
     runStructured(config)
   }

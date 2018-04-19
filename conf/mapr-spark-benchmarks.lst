@@ -5,6 +5,7 @@ streaming.wordcount
 
 structuredStreaming.identity
 structuredStreaming.repartition
+structuredStreaming.groupBy
 
 sql.aggregation
 sql.join

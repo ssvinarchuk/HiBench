@@ -42,7 +42,7 @@ class StructuredGroupByFT extends StructuredBenchBase {
     new Thread(new Runnable {
       override def run(): Unit = {
         while(!(isTableExists(query) &&
-          checkResult(query, config.keyCount, config.rowMultiplier))) {
+          checkResult(query, config.keyCount, config.totalRecords))) {
 
           Thread.sleep(1000)
         }
@@ -57,14 +57,14 @@ class StructuredGroupByFT extends StructuredBenchBase {
     query.sparkSession.catalog.tableExists(query.name)
   }
 
-  def checkResult(query: StreamingQuery, keyCount: Long, rowMultiplier: Long): Boolean = {
+  def checkResult(query: StreamingQuery, keyCount: Long, totalRecords: Long): Boolean = {
     var result: Boolean = false
     val ds = query
       .sparkSession
       .sql("SELECT count from " + query.name).collect();
 
     if (ds.length == keyCount) {
-      result = checkCount(ds, keyCount*rowMultiplier)
+      result = checkCount(ds, totalRecords)
     }
     result
   }
@@ -79,10 +79,12 @@ class StructuredGroupByFT extends StructuredBenchBase {
   }
 
   def writeResult(processTime: Long) : Unit = {
-    val resultString = s"TestCase ${testCase} was finish. Processed ${rowProcessed.get()} rows" +
+    val resultString = s"TestCase ${testCase} was finish. Processed ${rowProcessed.get()} rows," +
       s" time taken: ${processTime} ms"
     val resultPath = new Path(s"/${testCase}/${testCase}.res")
 
+    MFSUtil.deleteIfExists(resultPath)
     MFSUtil.write(resultString, resultPath)
   }
+
 }

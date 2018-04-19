@@ -45,7 +45,7 @@ case class SparkBenchConfig (
   windowDuration: Long,
   windowSlideStep: Long,
   keyCount: Long,
-  rowMultiplier: Long,
+  totalRecords: Long,
 
   executionTime: Long) {
 

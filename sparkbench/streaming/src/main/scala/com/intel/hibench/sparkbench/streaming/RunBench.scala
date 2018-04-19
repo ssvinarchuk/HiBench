@@ -68,7 +68,7 @@ object RunBench {
     val reporterTopic = MetricsUtil.getTopic(Platform.SPARK, streamTopic, producerNum, recordPerInterval, intervalSpan)
     println("Source Topic: " + streamTopic)
     println("Reporter Topic: " + reporterTopic)
-    val reporterTopicPartitions = conf.getProperty(StreamBenchConfig.KAFKA_TOPIC_PARTITIONS).toInt
+    val topicPartitions = conf.getProperty(StreamBenchConfig.KAFKA_TOPIC_PARTITIONS).toInt
 
     // Test execution time in milliseconds
     val execTime: Long = conf.getProperty(StreamBenchConfig.EXECUTION_TIME_MS).toLong
@@ -80,11 +80,11 @@ object RunBench {
     //TODO add property which handle this
     // Create stream and topic where original data should be
     MetricsUtil.createStream(streamPath)
-    MetricsUtil.createTopic(streamPath, topic, 1)
+    MetricsUtil.createTopic(streamPath, topic, topicPartitions)
 
     // Create topic where we generate data with processing timestamps with format
     // (time stamps when data was generated in original topic, time stamps when data was processed in spark)
-    MetricsUtil.createTopic(streamPath, reporterTopic.substring(reporterTopic.indexOf(":") + 1), reporterTopicPartitions)
+    MetricsUtil.createTopic(streamPath, reporterTopic.substring(reporterTopic.indexOf(":") + 1), topicPartitions)
 
     val probability = conf.getProperty(StreamBenchConfig.SAMPLE_PROBABILITY).toDouble
     // init SparkBenchConfig, it will be passed into every test case

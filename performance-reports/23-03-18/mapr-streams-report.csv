@@ -1,0 +1,3 @@
+type,time,count,throughput(msgs/s),max_latency(ms),mean_latency(ms),min_latency(ms),stddev_latency(ms),p50_latency(ms),p75_latency(ms),p95_latency(ms),p98_latency(ms),p99_latency(ms),p999_latency(ms)
+Identity,Fri Mar 16 16:40:52 PDT 2018,499,139,3369.000,3237.573,2907.000,143.430,3314.000,3340.000,3369.000,3369.000,3369.000,3369.000
+Repartition,Sat Mar 17 04:43:42 PDT 2018,499,107,4550.000,2908.645,1335.000,808.430,2892.000,3303.000,4337.000,4498.000,4521.000,4550.000

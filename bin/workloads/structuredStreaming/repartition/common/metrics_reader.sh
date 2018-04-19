@@ -35,5 +35,5 @@ CMD="${JAVA_BIN} -cp ${COMMON_JAR} com.intel.hibench.common.streaming.metrics.Me
 
 execute_withlog $CMD
 
-gen_mapr_streams_report Repartition "${root_dir}/report/${TOPIC}.csv"
+gen_mapr_streams_report structRepartition "${root_dir}/report/${TOPIC}.csv"
 show_bannar finish

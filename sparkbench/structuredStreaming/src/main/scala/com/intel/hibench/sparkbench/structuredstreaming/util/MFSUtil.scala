@@ -33,22 +33,23 @@ object MFSUtil {
       write(fs.append(path))
     }
 
+
     def write(outputStream: FSDataOutputStream): Unit = {
       outputStream.writeBytes(s"$text")
       outputStream.close()
     }
+  }
+  def exists(path: Path) = fs.exists(path)
 
-    def exists(path: Path) = fs.exists(path)
-
-    def deleteIfExists(path: Path) = {
-      if (exists(path)) {
-        fs.delete(path, true)
-      }
-    }
-
-    def initFolder(path: Path) = {
-      deleteIfExists(path)
-      fs.mkdirs(path)
+  def deleteIfExists(path: Path) = {
+    if (exists(path)) {
+      fs.delete(path, true)
     }
   }
+
+  def initFolder(path: Path) = {
+    deleteIfExists(path)
+    fs.mkdirs(path)
+  }
+
 }
